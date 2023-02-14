@@ -505,3 +505,265 @@ typedef struct StackNode {
 
 ## 3.5 队列的表示和操作的实现
 
+- review:
+
+<div align=left><img src="DataStructure1.assets/1676116013031.png" height=300></div>
+
+<div align=left><img src="DataStructure1.assets/1676116218883.png" height=300></div>
+
+![1676116275366](DataStructure1.assets/1676116275366.png)
+
+### 3.5.1 队列的抽象类型定义
+
+![1676118805168](DataStructure1.assets/1676118805168.png)
+
+怎么存放, 涉及物理存储方式, 大概就两种顺序, 和链式.
+
+### 3.5.2 循环队列
+
+- 顺序队列 数组存放
+
+  ```c
+  #define MAXQSIZE 100 //最大队列长度宏定义
+  typedef struct {
+      ...
+  } QElemType;
+  typedef struct {
+      QElemType *base; //用于指向malloc的空间
+      unsigned front; //存放队列头的下标
+      unsigned rear; //队尾
+  }SqQueue;
+  ```
+
+  为了在C 语言中描述方便起见，在此约定：初始化创建空队列时，令front = rear = 0 , 每当插入新的队列尾元素时，尾指针rear增1; 每当删除队列头元素时， 头指针front增1。因此，在非空队列中，头指针始终指向队列头元素，而尾指针始终指向队列尾元素的下一个位置，如下图所示。
+
+  ![1676120883588](DataStructure1.assets/1676120883588.png)
+
+  > 入队, 头不动尾动, 出队, 尾不动头动.
+
+- 真溢出与假溢出
+
+  ![1676121192079](DataStructure1.assets/1676121192079.png)
+
+  - 解决方法:
+
+  ![1676121398952](DataStructure1.assets/1676121398952.png)
+
+  - 循环队列:
+
+  下标n对MAXQSIZE的取模, n%MAXQSIZE, 就好像一个表盘一样, 钟表的一圈是12, 这个一圈是MAXQSIZE.
+
+  这样base[0]就接在base[MAXQSIZE-1] 之后了.
+
+  - 插入元素: 
+
+    Q.base[Q.rear] = x;  Q.rear=(Q.rear+1)%MAXQSIZE;
+
+  - 删除元素:
+
+    x = Q.base[Q.front];   Q.front = (Q.front+1)%MAXQSIZE;
+
+  ![1676122097547](DataStructure1.assets/1676122097547.png)
+
+- 循环队列判空与判满
+
+  上面我们可以知道, 循环队列的队空与队满都是front==rear, 故循环队列不能以头、尾指针的值是否相同来判别队列空间是“满” 还是“空”。
+
+  有以下两种处理方法: 
+
+  - 少用一个元素空间
+
+    即队列空间大小为m时，有m-1个元素就认为是队满。这样判断队空的条件不变， 即当头、尾指针的值相同时， 则认为队空；而当尾指针在循环意义上加1后是等于头指针， 则认为队满。因此， 在循环队列中队空和队满的条件是：
+    队空的条件： Q.front == Q.rear
+    队满的条件： (Q.rear+ 1)%MAXQSIZE == Q.front
+
+  - 另设一个标志位以区别队列是“空” 还是“满＂ 
+
+  > 主要用第一种, 少用一个空间. 让front跟rear别指到一起就完了
+
+![1676123556954](DataStructure1.assets/1676123556954.png)
+
+- 算法3.11 循环队列的初始化
+
+  ```c
+  int InitQueue (SqQueue *Q) //实参变量的地址传进来, 不然没用.
+  {
+      Q->base = malloc(MAXQSIZE*sizeof(QElemType)); //申请空间.
+      if(!Q->base) return -1; //判成功
+      Q->front = Q->rear = 0; //初始化为空.
+      return 0;
+  }
+  ```
+
+- 算法3.12 求循环队列的长度
+
+  对于非循环队列，尾指针和头指针的差值便是队列长度，而对于循环队列，差值可能为负数，所以需要将差值加上MAXQSIZE, 然后与MAXQSIZE求余。
+
+  ```c
+  int QueueLength(SqQueue const *Q)
+  {
+      return ((Q->rear - Q->front + MAXQSIZE) % MAXQSIZE);
+  }
+  ```
+
+- 算法3.13 循环队列的入队
+
+  - 判断队列是否满， 若满则返回ERROR。
+  - 将新元素插入队尾。
+  - 队尾指针加1。
+
+  ```c
+  int EnQueue(SqQueue *Q, QElemType e)
+  {
+      if((Q->rear+1)%MAXQSIZE == Q->front) return -1; //队满
+      Q->base[Q->rear] = e;         //新元素入队尾
+      Q->rear = (Q->rear+1)%MAXQSIZE; //队尾往后挪一个
+      return 0;
+  }
+  ```
+
+- 算法3.14 循环队列的出队
+
+  - 判断队列是否为空， 若空则返回ERROR。
+  - 保存队头元素。
+  - 队头指针加1。
+
+  ```c
+  int DeQueue(SqQueue *Q, QElemType *e)
+  {   //删除Q的队头元素, 用e返回其值
+      if(Q->rear == Q->front) return -1;
+      *e = Q->base[Q->front];
+      Q->front = (Q->front+1)%MAXQSIZE;
+      return 0;
+  }
+  ```
+
+- 算法3.15 取循环队列的队头元素
+
+  ```c
+  SElemType GetHead(SqQueue *Q)
+  {
+      if(Q->rear != Q->front)
+          return Q->base[Q->front];
+  }
+  ```
+
+如果用户的应用程序中设有循环队列，则必须为它设定一个最大队列长度；若用户无法预估所用队列的最大长度， 则宜采用链队。
+
+### 3.5.3 链队 -- 队列的链式表示和实现
+
+链队是指采用链式存储结构实现的队列。通常链队用单链表来表示,  一个链队显然需要两个分别指示队头和队尾的指针（分别称为头指针和尾指针）才能唯一确定。这里和线性表的单链表一样， 为了操作方便起见，给链队添加一个头结点， 并令头指针始终指向头结点。 不定长的队列就可以用链式.
+
+![1676127194538](DataStructure1.assets/1676127194538.png)
+
+```c
+//－ － － － － 队列的链式存储结构－ － － － －
+#define MAXQSIZE 100
+typedef struct Qnode
+{
+    QElemType data;
+    struct Qnode *next;
+} QNode, * QueuePtr;
+typedef struct
+{
+    QueuePtr front;//指针
+    QueuePtr rear;
+}LinkQueue;
+```
+
+链式队列空队就是 队首队尾指针指同一个.
+
+入队就是尾插法. 出队就是删除首元节点.
+
+![1676175463320](DataStructure1.assets/1676175463320.png)
+
+- 算法3.16 链队的初始化
+
+  链队的初始化操作就是构造一个只有一个头结点的空队.
+
+  - 生成新结点作为头结点， 队头和队尾指针指向此结点。
+  - 头结点的指针域置空。
+
+  ```c
+  int InitQueue (LinkQueue *Q)
+  {
+      Q->front = Q->rear = malloc(sizeof(QNode));
+      Q->front->next = NULL;
+  }
+  ```
+
+- 算法补充 销毁链队列
+
+  从头结点依次释放
+
+  ```c
+  int DestroyQueue(LinkQueue *Q)
+  {
+      while(Q->front)
+      {
+          Q->rear = Q->front->next;
+          free(Q->front);
+          Q->front = Q->rear;
+      }
+      return 0;
+  }
+  ```
+
+- 算法3.17 链队的入队
+
+  为入队元素分配结点空间，用指针p指向。
+  将新结点数据域置为e。
+  将新结点插入到队尾。
+  修改队尾指针为p。
+
+  ```c
+   int EnQueue (LinkQueue *Q, QElemType e)
+   {
+       Q->rear->next = malloc(sizeof(QNode)); //或者借助一个中间指针 QNode *p
+       if(!Q->rear->next) return -1;
+       Q->rear = Q->rear->next; //指向新的节点.
+       Q->rear->data = e;
+       Q->rear->next = NULL;
+       return -1;
+   }
+  ```
+
+- 算法3.18 链队的出队
+
+  链队在出队前也需要判断队列是否为空，不同的是，链队在出队后需要释放出队头元素的所占空间.
+
+  判断队列是否为空，若空则返回ERROR。
+  临时保存队头元素的空间，以备释放。
+  修改队头指针，指向下一个结点。
+  判断出队元素是否为最后一个元素，若是，则将队尾指针重新赋值， 指向头结点。
+  释放原队头元素的空间。
+
+  ``` c
+  int DeQueue(LinkQueue Q, QElemType *e)
+  {
+      if(Q->front==Q->rear) return -1;
+      
+      QNode *p = Q->front->next;
+      *e = p->data;
+      Q->front->next = p->next;
+      if(Q->rear == p)  Q->rear = Q->front;
+      free(p);
+      return 0;
+  }
+  ```
+
+- 算法3.19 取链队的队头元素。
+
+  当队列非空时，此操作返回当前队头元素的值，队头指针保持不变。
+
+  ```c
+  QElemType GetHead(LinkQueue *Q)
+  {
+      if(Q->front != Q->rear)
+      {
+          return Q->front->next->data;
+      }
+  }
+  ```
+
+  
