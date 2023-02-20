@@ -82,6 +82,37 @@
 
 ![1675937150165](DataStructure1.assets/1675937150165.png)
 
+​	算法:
+
+​	![1676895543591](DataStructure1.assets/1676895543591.png)
+
+```c
+int bracketCheck(char str[], int len)
+{
+    SqStack S;
+    InitStack(&S); //初始化栈
+    for (int i = 0; i < len; i++)
+    {
+        if( '(' == str[i] || '[' == str[i] || '{' == str[i])
+            Push(&S,str[i]);  //入栈
+        else
+        {
+            if(StackEmpty(S)) return -1; //栈已经空了
+            
+            char topElem;
+            Pop(&S, &topElem);  //栈顶元素出栈
+            if( ')'== str[i] && topElem != '(') //匹配
+                return -1;
+             if( ']'== str[i] && topElem != '[')
+                return -1;
+            if( '}'== str[i] && topElem != '{')
+                return -1;
+        }
+    }
+    return StackEmpty(S); //栈是否为空
+}
+```
+
 - 案例3.3: 表达式求值
 
   表达式求值是程序设计语言编译中的一个最基本间题， 其实现是栈应用的又一个典型例子。
@@ -93,6 +124,34 @@
   在表达式计算中先出现的运算符不一定先运算，具体运算顺序是需要通过运算符优先关系的比较，确定合适的运算时机，而运算时机的确定是可以借助栈来完成的。将扫描到的不能进行运算的运算数和运算符先分别压入运算数栈和运算符栈中， 在条件满足时再分别从栈中弹出进行运算。
 
   ![1675939712153](DataStructure1.assets/1675939712153.png)
+
+  ![1676896633892](DataStructure1.assets/1676896633892.png)
+
+  ![1676897434171](DataStructure1.assets/1676897434171.png)
+
+  有时候运算的顺序并不唯一. 但计算机来算, 只有一种.
+
+  ![1676897669275](DataStructure1.assets/1676897669275.png)
+
+  **左优先原则**:
+
+  ![1676897716323](DataStructure1.assets/1676897716323.png)
+
+  比如:![1676901068243](DataStructure1.assets/1676901068243.png)
+
+  正常是先算乘法, 再算除法. 但实际上, 先算A+B并不会影响最后的结果, 但是可以让计算机更好的操作.
+
+  ![1676901880473](DataStructure1.assets/1676901880473.png)
+
+  
+
+  中缀转前缀, 要用**右优先**的原则:
+
+  ![1676901757616](DataStructure1.assets/1676901757616.png)
+
+  计算过程:
+
+  ![1676901923533](DataStructure1.assets/1676901923533.png)
 
 - 案例3.4: 舞伴问题
 
@@ -162,13 +221,18 @@
 ```c
 typedef struct {
     ....
-}SElernType;
+}SElemType;
 
 #define MAXSIZE 100
-typedef struct {
-    SElernType *base;  //栈底指针
-    SElernType *top;   //栈顶指针
+typedef struct { // 动态分配的顺序栈
+    SElemType *base;  //栈底指针 malloc时记录地址到base 
+    SElemType *top;   //栈顶指针
     int stacksize;   //栈的最大size
+}SqStack;
+
+typedef struct { //静态分配的顺序栈
+    SElemType data[MAXSIZE]; //静态数组
+    int top;  //栈顶指针.
 }SqStack;
 ```
 
@@ -189,8 +253,8 @@ base为栈底指针, 初始化完成后, 栈底指针base始终指向栈底的�
   ```c
   int InitStack(SqStack *S) //传进来变量的地址. 
   {//构造一个空栈S
-      S->base = malloc(MAXSIZE*sizeof(SElernType));
-      if(! S->base) exit(OVERFLOW);
+      S->base = malloc(MAXSIZE*sizeof(SElemType));
+      if(!S->base) exit(OVERFLOW);
       S->top = S->base;
       S->stacksize = MAXSIZE;
       return 0;
@@ -254,7 +318,7 @@ base为栈底指针, 初始化完成后, 栈底指针base始终指向栈底的�
   int Push (SqStack *s, SElemType e)
   {
       if( (s->top - s->base) == s->stacksize) return -1;
-      *p->top++ = e;
+      *s->top++ = e;
       return 0;
   }
   ```
@@ -528,10 +592,19 @@ typedef struct StackNode {
   typedef struct {
       ...
   } QElemType;
-  typedef struct {
+  typedef struct { //动态
       QElemType *base; //用于指向malloc的空间
-      unsigned front; //存放队列头的下标
-      unsigned rear; //队尾
+      int front; //存放队列头的下标
+      int rear; //队尾
+  }SqQueue;
+  
+  typedef struct { //静态
+      QElemType data[MAXQSIZE]; //用于指向malloc的空间
+      int front; //存放队列头的下标
+      int rear; //队尾
+      //int size; 如果不想浪费那一个空间, 就添加这个变量存放队列的长度 这是方案二
+      //int tag; 0是表示最后一次是删除操作, 1为插入操作. front == rear && tag==0 队空 
+      //这是方案三                                //front == rear && tag == 1队满
   }SqQueue;
   ```
 
@@ -571,11 +644,11 @@ typedef struct StackNode {
 
   有以下两种处理方法: 
 
-  - 少用一个元素空间
+  - **少用一个元素空间**
 
     即队列空间大小为m时，有m-1个元素就认为是队满。这样判断队空的条件不变， 即当头、尾指针的值相同时， 则认为队空；而当尾指针在循环意义上加1后是等于头指针， 则认为队满。因此， 在循环队列中队空和队满的条件是：
-    队空的条件： Q.front == Q.rear
-    队满的条件： (Q.rear+ 1)%MAXQSIZE == Q.front
+    **队空的条件**： `Q.front == Q.rear`
+    **队满的条件**： `(Q.rear+ 1)%MAXQSIZE == Q.front`
 
   - 另设一个标志位以区别队列是“空” 还是“满＂ 
 
@@ -687,7 +760,7 @@ typedef struct
   ```c
   int InitQueue (LinkQueue *Q)
   {
-      Q->front = Q->rear = malloc(sizeof(QNode));
+      Q->front = Q->rear = (QNode *)malloc(sizeof(QNode));
       Q->front->next = NULL;
   }
   ```
@@ -717,14 +790,34 @@ typedef struct
   修改队尾指针为p。
 
   ```c
-   int EnQueue (LinkQueue *Q, QElemType e)
+   int EnQueue(LinkQueue *Q, QElemType e)
    {
-       Q->rear->next = malloc(sizeof(QNode)); //或者借助一个中间指针 QNode *p
-       if(!Q->rear->next) return -1;
-       Q->rear = Q->rear->next; //指向新的节点.
-       Q->rear->data = e;
-       Q->rear->next = NULL;
+       QNode *p = (QNode *)malloc(sizeof(QNode)); //借助一个中间指针 QNode *p
+       if(!p) return -1;
+       p->data = e;
+       p->next = NULL;
+       Q->rear->next = p; //指向新的节点.
+       Q->rear = p;
        return -1;
+   }
+  //不带头结点
+   int EnQueue(LinkQueue *Q, QElemType e)
+   {
+       QNode *p = (QNode *)malloc(sizeof(QNode)); //借助一个中间指针 QNode *p
+       if(!p) return -1;
+       p->data = e;
+       p->next = NULL;
+       if(Q->front == NULL)
+       {
+           Q->front = s;
+           Q->rear = s;
+       }
+       else
+       {
+           Q->rear->next = s;
+           Q->rear = s;
+       }
+       return 1;
    }
   ```
 
@@ -741,14 +834,27 @@ typedef struct
   ``` c
   int DeQueue(LinkQueue Q, QElemType *e)
   {
-      if(Q->front==Q->rear) return -1;
+      if(Q->front == Q->rear) return -1;
       
-      QNode *p = Q->front->next;
+      QNode *p = Q->front->next; //头结点后面的那个结点
       *e = p->data;
       Q->front->next = p->next;
-      if(Q->rear == p)  Q->rear = Q->front;
+      if(Q->rear == p)  Q->rear = Q->front; //最后一个的话 rear指向front
       free(p);
       return 0;
+  }
+  //不带头结点
+  int DeQueue(LinkQueue Q, QElemType *e)
+  {
+      if(!Q->front) return -1; //空
+      QNode *p = Q->front;
+      *e = p->data;
+      if(Q->rear == p)
+      {
+          Q->front = Q->rear = NULL;
+      }
+      free(p);
+      return 1;
   }
   ```
 
@@ -766,4 +872,8 @@ typedef struct
   }
   ```
 
-  
+### 3.5.4 双端队列
+
+![1676893804801](DataStructure1.assets/1676893804801.png)
+
+## 数据结构不要学死了, 灵活掌握思想.

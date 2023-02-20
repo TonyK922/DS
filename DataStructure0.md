@@ -102,7 +102,7 @@
 
   索引表中每一项为索引项,  索引项的一般形式是: (关键字, 地址),  关键字是能唯一标识一个节点的那些数据项
 
-- 散列存储结构
+- 散列存储结构(哈希存储)
 
   根据节点的关键字直接计算出该节点的存储地址, 比如关键字的值进行模运算得到地址, 就把值存到那个地址.
 
@@ -501,18 +501,20 @@ a(i-1) 是ai的前趋, ai是a(i-1)的后继.
 >
 > 可以用数组来存储, 未必是在栈上, 也可以是堆内存中. 比如 零长数组, 作为结构体成员. 最好是在堆中.
 
-顺序存储方式, 寻址特简单. 代价是插入与删除操作特别费事.
+顺序存储方式, 寻址特简单. 代价是插入与删除操作特别费事. 
+
+申请内存的时候, 分配静态分配和动态分配, 静态分配定长, 动态分配可以变长.
 
 ```c
 //写法一
+#define MAXSIZE 100
 typedef struct {
     unsigned listLen;    //有几个数据元素
-    unsigned listSize;  
     ElemType elem[0];    //需要的时候再申请空间
 }SqList;
 //课本写法
 #define MAXSIZE 100
-typedef struct {
+typedef struct {  //动态分配.  如果要静态分配直接写数组就行了.
     unsigned listLen;    //有几个数据元素
     ElemType *elem;    //需要的时候再申请空间
 }SqList;
@@ -524,9 +526,9 @@ typedef struct {
 
   ```c
   //写法一
-  int initList_Sq(SqList **L)
+  int initList_Sq(SqList **L) //实参是个指针.
   {
-      SqList *p = malloc(sizeof(SqList) + (*L).listSize * sizeof(ElemType));
+      SqList *p = malloc(sizeof(SqList) + MAXSIZE * sizeof(ElemType));
       if (!P)  exit(-2);
       (*L).listLen = 0;
       *L = p;
@@ -590,7 +592,7 @@ typedef struct {
   int GetElem(SqList *L, int i, Element **e);
   {
       if(i<1 || i>L->listLen) return -1;
-      *e = L->elem + i-1;
+      *e = *(L->elem + i - 1);
       return 0;
   }
   ```
@@ -634,7 +636,7 @@ typedef struct {
   ```c
   int ListInsert_Sq(SqList *L, int i, ElemType e)
   {
-      if ( i<1 || i>L->listLen ) return -1;
+      if ( i<1 || i > L->listLen + 1 ) return -1;
       
       if( MAXSIZE == L->listLen ) return -1;
       
@@ -663,9 +665,12 @@ typedef struct {
 int ListDelete(SqList *L, int i)
 {
     if ( i < 1 || i > L->listLen ) return -1;
-    if( 0 == L->listLen ) return -1;
+    
+    //if( 0 == L->listLen ) return -1;
+    
     for(int idx = i; idx < L->listLen; idx++)
-        *(L->elem + idx - 1) = *(L->elem + idx);
+        *(L->elem + idx - 1) = *(L->elem + idx); 
+    L->listLen--;
     return 0;
 }
 ```
@@ -771,9 +776,9 @@ int ListDelete(SqList *L, int i)
   LinkList head = NULL;
   InitList(head);
   
-  int InitLisk(LinkList **L)
+  int InitLisk(LinkList *L)
   {
-      *L = malloc(sizeof(LNode));
+      *L = malloc(sizeof(LNode)); //头结点
       if ( NULL == *L ) return -1;
       (*L)->next = NULL;
       return 0;
@@ -803,7 +808,7 @@ int ListDelete(SqList *L, int i)
   ```c
   int DestroyList(LinkList p)
   {
-      LNode * ptr;
+      LNode* ptr = NULL;
       while(p)
       {
           ptr = p;
@@ -821,9 +826,9 @@ int ListDelete(SqList *L, int i)
   从首元节点开始, 依次释放所有节点, 并将头结点指针域置空.
 
   ```c
-  int ClearList(LinkList *L) //二级指针
+  int ClearList(LinkList L) 
   {
-      LNode *p = (*L)->next;
+      LNode *p = L->next;
       LNode *q;
       while(p)
       {
@@ -831,7 +836,7 @@ int ListDelete(SqList *L, int i)
           free(p);
           p = q;
       }
-      (*L)->next = NULL;
+      L->next = NULL;
       return 0;
   }
   ```
@@ -861,9 +866,11 @@ int ListDelete(SqList *L, int i)
   ```c
   //给的是ElemType变量的地址, 如果是指针变量的地址, 就用二级指针参数
   int GetElem(LinkList L, unsigned i, ElemType *p)
-  {									       
-      LNode *p = L->next;
-      int counter = 1;
+  {
+      if(i < 1) return -1;//第0个头结点, 不放东西
+      
+      LNode *p = L->next; //指向第一个结点
+      int counter = 1;  //上面指向第一个结点了, 所以计数从1开始
       while(p && (j<i)) //while(p && (j != i))
       {
           p = p->next;
@@ -871,6 +878,22 @@ int ListDelete(SqList *L, int i)
       }
       if ( !p || j>i ) return -1;
       *p = p->data;
+      return 1;
+  }
+  //返回结点的地址
+  LNode *GetElem(LinkList L, unsigned i)
+  {
+      if( i < 1 ) return L; //小于1的通通返回头结点
+      
+      LNode *p = L->next; //指向第一个结点
+      int counter = 1;  //上面指向第一个结点了, 所以计数从1开始
+      while(p && (j<i)) //while(p && (j != i))
+      {
+          p = p->next;
+          ++j;
+      }
+      if ( !p || j>i ) return -1;
+      return p;
   }
   ```
 
@@ -883,13 +906,13 @@ int ListDelete(SqList *L, int i)
   {
       LNode *p = L->next;
       while( p && (p->data != e))
-          p=p>next;
+          p = p->next;
       return p;
   }
   ```
 
   ```c
-  LNode * LocateElem(LinkList L, ElemType e)
+  int LocateElem(LinkList L, ElemType e)
   {
       LNode *p = L->next;
       unsigned counter = 1;
@@ -898,7 +921,7 @@ int ListDelete(SqList *L, int i)
   		p=p>next;
           ++counter;
       }
-      if(p) return counter;
+      if( p ) return counter;
       else
            return 0;
   }
@@ -913,6 +936,7 @@ int ListDelete(SqList *L, int i)
   ```c
   int InsertList(LinkList L, unsigned i, ElemType e)
   {
+      if ( i < 1 ) return -1;
       LNode *p = L;
       unsigned counter = 0;
       while( p && counter < i-1 )
@@ -929,35 +953,92 @@ int ListDelete(SqList *L, int i)
   }
   ```
 
+  ```c
+  // 给定p结点的地址, 在p之后插入一个元素
+  bool InsertNextNode(LNode *p, ElemType e)
+  {
+      if (!p) return 0;
+      
+      LNode *new = malloc(sizeof(LNode));
+      if( !new ) return 0;
+      
+      new->data = e;
+      new->next = p->next;
+      p->next = new;
+      return 1;
+  }
+  // 给定p结点的地址, 在p之前插入一个元素, 不给头指针
+  int InsertPriorNode(LNode *p, ElemType e) //P后面插一个, 然后值变掉就行.
+  {
+      if (!p) return 0;
+    
+      LNode *new = malloc(sizeof(LNode));
+      new->data = p->data;
+      new->next = p->next;
+      p->next = new;
+      p->data = e;
+      return 1;
+  }
+  //把s插到p前面
+  int InsertPriorNode(LNode *p, LNode *s) 
+  {
+      if (!p || !s) return 0;
+      
+      ElemType tmp = p->data;
+      s->next = p->next;
+      p->next = s;
+      p->data = s->data;
+      s->data = tmp;
+      return 1;
+  }
+  ```
+
 - 删除节点 删除第i个节点
 
   ```c
   int deleteList(LinkList L, int i, ElemType *e)
-  {
+  {//带头结点
       LNode * p = L;
-      int count = 0;
+      int count = 0;   //指向头结点
       while( p && count < i-1 )
       {
           p = p->next;
           count++;
       }
-      if(!p->next || j>i-1) return -1;
+      if(!p) return -1; //i-1都是空, i不合法
+      if(!p->next || j>i-1) return -1; // i-1 后是空的, 没有第i个结点.
       LNode *q = p->next;
       p->next = q->next;
       *e = q->data;   
       free(q);
       return 0;
   }
+  //如果是不带头结点那就如果i==1的时候特殊操作.
+  LNode *tmp = *L;
+  *L = (*L)->next; //要拿到头指针的地址才行
+  free(tmp);
+  //删除指定结点
+  int deleteNode(LNode *p)
+  {
+      if(!p) return -1;    
+      if(!p->next) return -1;  //如果p就是最后一个了, 就没法把p的前趋的next置为NULL;需要遍历.
+      
+      LNode *tmp = p->next;
+      p->next = tmp->next;
+      p->data = tmp->data;
+      free(tmp);
+      return 1;
+  }
   ```
 
 
-- 单链表的查找,插入,删除算法时间效率分析
+- 单链表的查找,插入,删除算法**时间效率分析**
 
   `查找`: 因为线性表只能顺序存储, 即查找时需要从头指针找, 查找的视角复杂度为O(n).
 
   `插入和删除`: 线性表不需要移动元素, 只需修改指针, 一般情况下时间复杂度为O(1). 但若要在单链表中进行前插, 或者删除操作, 则需从头查找其前趋节点, 时间复杂度为O(n).
 
-- 创建单链表
+- **创建单链表**
 
   > 前面单链表初始化操作是创建一个只有一个头结点的空链表，而上面链表的其他算法都是假定链表巳经存在多个结点。那么，如何建立一个包括若干个结点的链表呢？链表和顺序表不同，它是一种动态结构。整个可用存储空间可为多个链表共同享用，每个链表占用的空间不需预先分配划定，而是由系统按需即时生成。因此，建立线性表的链式存储结构的过程就是一个动态生成链表的过程。即从空表的初始状态起，依次建立各元素结点，并逐个插入链表。
   > 根据结点插入位置的不同，链表的创建方法可分为前插法和后插法。
@@ -966,21 +1047,44 @@ int ListDelete(SqList *L, int i)
 
     前插法是通过将新结点逐个插入链表的头部（头结点之后）来创建链表，每次申请一个新结点，读入相应的数据元素值，然后将新结点插入到头结点之后。
 
+    链表的反转, 就是用头插法.
+
     ![1675746286869](DataStructure0.assets/1675746286869.png)
 
     ```c
-    void CreateList_H(LinkList *L,int n) //L是二级指针
-    {
+    void CreateList_H(LinkList *L,int n) //L是二级指针 n是多少个结点(头结点不算)
+    {//如果不给结点个数, 就用一个特殊的输入来结束
         *L = malloc(sizeof(LNode));
         if(!*L)  return -1;
-        *L->next = NULL;
+        (*L)->next = NULL; //关键, 不然后面循环会出大问题
         for(int i = 0; i < n; ++i)
         {
             LNode *p = malloc(sizeof(LNode));
             if(!p)  return -1;
-            scanf("...", &p->data);
-            P->next = *L->next; //头结点L的下一个节点, 现在变成p的下一个节点
-            *L->next = p;     //L的下一个节点现在是p
+            scanf("...", &p->data); // -> 优先级更高
+            P->next = (*L)->next; //头结点L的下一个节点, 现在变成p的下一个节点
+            (*L)->next = p;     //L的下一个节点现在是p
+        }
+    }
+    void CreatList_h(LinkList *L)
+    {
+        *L = malloc(sizeof(LNode));
+        if(!*L)  return -1;
+        
+        int x = 0;
+        scanf("%d", &x);
+        (*L)->data = x;
+        (*L)->next = NULL;
+        scanf("%d", &x);
+        while(x!=9999)
+        {
+            LNode *s  = malloc(sizeof(LNode));
+            if(!s)  return -1;
+            
+            s->data = x;
+            s->next = (*L)->next;
+            (*L)->next = s;       
+            scanf("%d", &x);
         }
     }
     ```
@@ -994,10 +1098,10 @@ int ListDelete(SqList *L, int i)
 
     ```c
     void CreateList_R(LinkList *L,int n) //L是二级指针
-    {
+    { //若是不带头结点, 那就得先把第一个结点创建完, 才能进入循环
         *L = malloc(sizeof(LNode));
         if(!*L)  return -1;
-        *L->next = NULL;
+        (*L)->next = NULL; // * 优先级 大于 ->
         LNode *r = *L;
         for (int i=0; i<n; i++)
         {
@@ -1026,7 +1130,7 @@ int ListDelete(SqList *L, int i)
 有了尾指针, 把两个循环链表合成一个, 就好操作了 .
 ```c
 p = B->next->next; //暂存B的首元节点
-B->next = A->next;// B的尾结点指向A的头结点.
+B->next = A->next; // B的尾结点指向A的头结点.
 A->next = p;      //A的尾结点, 指向B的首元节点.
 ```
 
@@ -1082,7 +1186,7 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
   ![1675768577436](DataStructure0.assets/1675768577436.png)
 
   ```c
-  int Listinsert_DuL(DuLinkList *L,int i, ElemType e)
+  int Listinsert_DuL(DuLinkList L,int i, ElemType e)
   {
       DuLNode *p = NULL;
       if ( !(p=GetElem_DuL(L, i)) ) return -1; //查找跟单链一样
@@ -1094,6 +1198,18 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
       s->next  = p;
       p->prior = s;
       return 0;    
+  }
+  //在p结点后插入s结点.
+  int InsertNextDNode(DNode *p, DNode *s)
+  {
+      if(!p || !s) return 0;
+      
+      s->next = p->next; //先把s插到p后面.
+      if(p->next != NULL) //循环双链表则不用判.
+      	p->next->prior = s;
+      s->prior = p;
+      p->next = s;
+      return 1;
   }
   ```
 
@@ -1111,11 +1227,42 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
       free(p);
       return 0;
   }
+  //删除p结点后面的结点
+  int DeleteNextNode(DNode *p)
+  {
+      if(!p) return 0;
+      DNode *q = p->next;
+      if(!q) return 0;
+      p->next = q->next;
+      if(q->next != NULL) //循环双链 也不用判
+          q->next->prior = p;
+      free(q);
+      return 1;
+  }
   ```
 
-- 2.5.5 单链, 循环链, 双向链表的时间效率比较
+- 双链的查找
+
+  按值, 按位查找. 时间复杂度O(n). 前向, 后向遍历.
+
+-  2.5.5 单链, 循环链, 双向链表的时间效率比较
 
 ![1675780241476](DataStructure0.assets/1675780241476.png)
+
+- 静态链表
+
+  ![1676882821114](DataStructure0.assets/1676882821114.png)
+
+  ```c
+  #define MAXSIZE 10
+  struct Node{
+  	ElemType data;
+      int next;
+  };
+  typedef struct Node SLinkList[MAXSIZE];
+  ```
+
+  ![1676883246309](DataStructure0.assets/1676883246309.png)
 
 ## 2.6 顺序表和链表的比较
 
