@@ -613,9 +613,9 @@ typedef struct{
        EnQueue(Q,v);  //第v个顶点进队
        while(!QueueEmpty(Q)) //队列非空
        {
-           DeQueue (Q, u); //队头元素出队并置为u
+           DeQueue(Q, u); //队头元素出队并置为u
            //依次检查u的所有邻接点w, FirstAdjVex(G,u)表示u的第一个邻接点
-           for(w=FirstAdjVex(G,u);w>= O;w=NextAdjVex(G,u,w))
+           for(w=FirstAdjVex(G,u); w>=0; w=NextAdjVex(G,u,w))
                if ( !visited[w]) //w为u的尚未访问的邻接顶点
                {
                    printf("%d\n",w); 
@@ -664,10 +664,73 @@ MST性质解释:
 
 ![1677761993833](DataStructure4.assets/1677761993833.png)
 
-1. 普里姆算法
+1. 普里姆算法 Prim
 
-   算法思想:
+   - 算法思想:
 
    ![1677767443362](DataStructure4.assets/1677767443362.png)
 
+   此时TE 中必有n-1 条边, 则T= (V, TE)为N 的最小生成树.
+
    普里姆算法逐步增加U中的顶点, 可称为"加点法".
+
+   - 普里姆算法的实现:
+
+   ![1677831730681](DataStructure4.assets/1677831730681.png)
+
+   ```c
+   //辅助数组的定义, 用来记录从顶点集u到v-u的权值最小的边
+   struct {
+       VerTexType adjvex; //最小边在U中的那个顶点
+       ArcType lowcost;  //最小边上的权值
+   }closedge[MVNum];
+   ```
+
+   **算法6.8 普里姆算法**
+
+   步骤:
+
+   (1) 首先将初始顶点u加入U中, 对其余的每一个顶点Vj, 将closedge[j]均初始化为到u的边信息。
+   (2) 循环`n-1`次, 做如下处理：
+   • 从各组边closedge中选出最小边closedge[k], 输出此边；
+   • 将k加入U中；
+   • 更新剩余的每组最小边信息closedge[j], 对于V-U中的边, 新增加了一条从k到j的边, 如果新边的权值比closedge[j].lowcost 小, 则将closedge[j].lowcost更新为新边的权值.
+
+   ```c
+   void MiniSpanTree_Prim(AMGraph *G,VerTexType u)
+   {
+      //无向网G以邻接矩阵形式存储,从顶点u出发构造G的最小生成树T,输出T的各条边
+       int k = LocateVex(G,u); //拿到顶点u的下标
+       //对v-u 的每一个顶点Vj, 初始化closedge[j]
+       for(int j = 0; j < G->vexnum; ++j)
+           if(j!=k) closedge[j]={u,G->arcs[k][j]};
+       
+       closedge[k].lowcost = O; //初始  U={u} u到u的最小值是0
+       for(int i = 1; i < G->vexnum; ++i)
+       {//选择其余n-1个顶点，生成n-1条边(n=G->vexnum)
+           int k = Min(closedge);
+           //求出T的下一个结点：第K个顶点, closedge[k]中存有当前最小边
+           VerTexType u0 = closedge[k].adjvex; //u0为最小边的一个顶点，u0属于U
+           VerTexType v0 = G->vexs[k]; //v0为最小边的另一个顶点,v0属于V-U
+           printf("%c %c\n", u0,v0); //输出当前的最小边(u0, v0)
+           closedge[k].lowcost=0; //第k个顶点并入u集
+           
+           for(int j=0; j<G->vexnum; ++j)
+           {
+               if(G->arcs[k][j] < closedge[j].lowcost) //新顶点并入u后重新选择最小边
+                   closedge [j] = {G->vexs[k],G->arcs[k][j]}
+           }
+       }
+   }
+   ```
+
+   普里姆算法的时间复杂度为`O(n^2)`, 与网中的边数无关,  因此适用求`稠密网`的最小生成树.
+
+   2. 克鲁斯卡尔算法 Kruskal
+
+      算法思想:
+
+      ![1677847152525](DataStructure4.assets/1677847152525.png)
+
+      具体实现看课本.
+
