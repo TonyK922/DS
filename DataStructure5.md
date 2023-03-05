@@ -1,7 +1,7 @@
 
 # 第7章 查找
 
-![1677847602670](DataStructure5.assets/1677847602670.png)
+![](DataStructure5.assets/1677847602670.png)
 
 ## 7.1 查找的基本概念
 
@@ -20,7 +20,7 @@
 (5) 平均查找长度
 为确定记录在查找表中的位置，需和给定值进行比较的关键字个数的期望值， 称为查找算法在查找成功时的平均查找长度(Average Search Length, ASL).
 
-![1677850560373](DataStructure5.assets/1677850560373.png)
+![](DataStructure5.assets/1677850560373.png)
 
 查找的方法 取决于查找表的结构, 即表中数据元素是依何种关系组织在一起的.
 
@@ -61,7 +61,7 @@ typedef struct{
 SSTable ST;
 ```
 
-![1677851861374](DataStructure5.assets/1677851861374.png)
+![](DataStructure5.assets/1677851861374.png)
 
 - 算法7.1 顺序查找
 
@@ -87,7 +87,7 @@ int Search_Seq(SSTable ST,KeyType key)
 
 - **算法7.2 设置监视哨的顺序查找**
 
-  ![1677852568270](DataStructure5.assets/1677852568270.png)
+  ![](DataStructure5.assets/1677852568270.png)
 
 ```c
 int Search_Seq(SSTable ST, KeyType key)
@@ -106,7 +106,7 @@ int Search_Seq(SSTable ST, KeyType key)
 
 顺序查找的优点是: 算法简单, 对表结构无任何要求, 既适用于顺序结构, 也适用千链式结构, 无论记录是否按关键字有序均可应用. 其缺点是: 平均查找长度较大, 查找效率较低, 所以当n很大时, 不宜采用顺序查找.
 
-![1677853067739](DataStructure5.assets/1677853067739.png)
+![](DataStructure5.assets/1677853067739.png)
 
 ### 7.2.2 折半查找
 
@@ -116,11 +116,11 @@ int Search_Seq(SSTable ST, KeyType key)
 
 折半查找每一次查找比较都使查找范围缩小一半，与顺序查找相比，很显然会提高查找效率。为了标记查找过程中每一次的查找区间，下面分别用low和high来表示当前查找区间的下界和上界，mid为区间的中间位置。
 
-![1677901203055](DataStructure5.assets/1677901203055.png)
+![](DataStructure5.assets/1677901203055.png)
 
 \[算法步骤]:
 
-![1677901344259](DataStructure5.assets/1677901344259.png)
+![](DataStructure5.assets/1677901344259.png)
 
 ```c
 int Search_Bin(SSTable ST, KeyType key)
@@ -162,13 +162,13 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
 分块查找(Blocking Search) 又称索引顺序查找，这是一种性能介于顺序查找和折半查找之间的一种查找方法。在此查找法中，除表本身以外，尚需建立一个“索引表”。如图:
 
-![1677918927369](DataStructure5.assets/1677918927369.png)
+![](DataStructure5.assets/1677918927369.png)
 
 上图就是一个表及其索引表，表中含有18 个记录， 可分成3 个子表对每个子表（或称块）建立一个索引项，其中包括两项内容：`关键字项`（其值为该子表内的最大关键字） 和`指针项`（指示该子表的第一个记录在表中位置）。索引表按`关键字有序`，则表或者有序或者分块有序。
 
 所谓“ 分块有序” 指的是第二个子表中所有记录的关键字均大于第一个子表中的最大关键字，第三个子表中的所有关键字均大于第二个子表中的最大关键字，……，依次类推。
 
-![1677919380615](DataStructure5.assets/1677919380615.png)
+![](DataStructure5.assets/1677919380615.png)
 
 - 查询过程
 
@@ -183,13 +183,13 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
 - 三种查找的比较
 
-  ![1677919455519](DataStructure5.assets/1677919455519.png)
+  ![](DataStructure5.assets/1677919455519.png)
 
 ## 7.3 树表的查找
 
 折半查找效率较高, 但由于折半查找要求表中记录按关键字有序排列, 且不能用链表做存储结构, 因此, 当表的插入或删除操作频繁时, 为维护表的有序性, 需要移动表中很多记录. 这种由移动记录引起的额外时间开销, 就会抵消折半查找的优点. 所以, 线性表的查找更适用于`静态查找表`, 若要对动态查找表进行高效率的查找, 可采用几种`特殊的二叉树`作为查找表的组织形式, 在此将它们统称为树表.
 
-![1677919914657](DataStructure5.assets/1677919914657.png)
+![](DataStructure5.assets/1677919914657.png)
 
 ### 7.3.1 二叉排序树
 
@@ -206,7 +206,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
    二叉排序树是递归定义的. 由定义可以得出二叉排序树的一个`重要性质`: 
    中序遍历一棵二叉树时可以得到一个结点值`递增`的有序序列.
 
-   ![1677923603717](DataStructure5.assets/1677923603717.png)
+   ![](DataStructure5.assets/1677923603717.png)
 
    因为二叉排序树的操作要根据结点的关键字域来进行, 所以下面给出了每个结点的数据域的类型定义(包括关键字项和其他数据项):
 
@@ -230,7 +230,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    因为二叉排序树可以看成是一个有序表, 所以在二叉排序树上进行查找和折半查找类似, 也是一个逐步缩小查找范围的过程。
 
-   ![1677998921455](DataStructure5.assets/1677998921455.png)
+   ![](DataStructure5.assets/1677998921455.png)
 
    > 先和根节点相比, 决定往左子树走还是往右子树走.
 
@@ -267,7 +267,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    二叉排序树上的查找和折半查找相差不大. 但就维护表的有序性而言, 二叉排序树更加有效, 因为无需移动记录, 只需修改指针即可完成对结点的插入和删除操作. 因此, 对于需要经常进行插入, 删除和查找运算的表, 采用二叉排序树比较好.
 
-   ![1677999673559](DataStructure5.assets/1677999673559.png)
+   ![](DataStructure5.assets/1677999673559.png)
 
    > 所以, 想提高形态不平衡的二叉排序树的查找效率, 就得对它做平衡化处理.
 
@@ -275,7 +275,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
       二叉排序树的插入操作是以查找为基础的. 要将一个关键字值为key 的结点`*S` 插入到二叉排序树中, 则需要从根结点向下查找, 当树中不存在关键字等于key的结点时才进行插入. 新插入的结点一定是一个新添加的叶子结点, 并且是查找不成功时查找路径上访问的最后一个结点的左孩子或右孩子结点.
 
-      ![1678000060057](DataStructure5.assets/1678000060057.png)
+      ![](DataStructure5.assets/1678000060057.png)
 
       **算法7.5 二叉排序树的插入**
 
@@ -350,7 +350,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    二叉排序树的创建是从空的二叉排序树开始的, 每输入一个结点, 经过查找操作, 将新结点插入到当前二叉排序树的合适位置.
 
-   ![1678000776618](DataStructure5.assets/1678000776618.png)
+   ![](DataStructure5.assets/1678000776618.png)
 
    **算法7.6 二叉排序树的创建**
 
@@ -381,7 +381,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    **一个无序序列可以通过构造一棵二叉排序树而变成一个有序序列, 构造树的过程即为对无序序列进行排序的过程.  每次插入的新结点都是二叉排序树上新的叶子结点, 则在进行插入操作时, 不必移动其他结点, 仅需改动某个结点的指针, 由空变为非空即可. 这就相当于在一个有序序列上插入一个记录而不需要移动其他记录.**
 
-   ![1678001218418](DataStructure5.assets/1678001218418.png)
+   ![](DataStructure5.assets/1678001218418.png)
 
 5. **二叉排序树的删除**
 
@@ -391,7 +391,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
      其双亲结点中的相应指针域的值改为空
 
-     ![1678001453527](DataStructure5.assets/1678001453527.png)
+     ![](DataStructure5.assets/1678001453527.png)
 
    - 被删除的结点只有左子树或右子树
 
@@ -399,19 +399,15 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
      其双亲结点的相应指针域的值改为 "指向被删结点的左子树或者右子树".
 
-     ![1678001557238](DataStructure5.assets/1678001557238.png)
+     ![](DataStructure5.assets/1678001557238.png)
 
    - 被删结点既有左子树, 又有右子树.
-
-     ![1678001751983](DataStructure5.assets/1678001751983.png)
-
-     ![1678001839255](DataStructure5.assets/1678001839255.png)
-
-     ![1678001964695](DataStructure5.assets/1678001964695.png)
-
+     ![](DataStructure5.assets/1678001751983.png)
+     ![](DataStructure5.assets/1678001839255.png)
+     ![](DataStructure5.assets/1678001964695.png)
 ### 7.3.2 平衡二叉树
 
-![1678002148537](DataStructure5.assets/1678002148537.png)
+![](DataStructure5.assets/1678002148537.png)
 
 树的高度越小, 查找速度越快.
 
@@ -428,11 +424,11 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    则平衡二叉树上所有结点的平衡因子只可能是-1,0和1. 只要二叉树上有一个结点的平衡因子的绝对值大于1 , 则该二叉树就是不平衡的.
 
-   ![1678003308869](DataStructure5.assets/1678003308869.png)
+   ![](DataStructure5.assets/1678003308869.png)
 
 2. **平衡二叉树的平衡调整方法**
 
-   ![1678004255424](DataStructure5.assets/1678004255424.png)
+   ![](DataStructure5.assets/1678004255424.png)
 
    `调整方法`是: 找到离插入结点最近且平衡因子绝对值超过1的祖先结点, 以该结点为根的子树称为最小不平衡子树, 可将重新平衡的范围局限于这棵子树.
 
@@ -440,7 +436,7 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    一般情况下, 假设最小不平衡子树的根结点为A, 则失去平衡后进行调整的规律可归纳为下列4种情况:
 
-   ![1678005326107](DataStructure5.assets/1678005326107.png)
+   ![](DataStructure5.assets/1678005326107.png)
 
    LL 型：由于在A 左子树根结点的左子树上插入结点,A 的平衡因子由1增至2, 致使以A为根的子树失去平衡, 则需进行一次向右的顺时针旋转操作.
 
@@ -450,70 +446,70 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
    RL 型：由于在A 的右子树根结点的左子树上插入结点, A 的平衡因子由-1 变为-2, 致使以A 为根结点的子树失去平衡, 则旋转方法和LR 型相对称, 也需进行两次旋转, 先顺时针右旋, 再逆时针左旋.
 
-   ![1678005534962](DataStructure5.assets/1678005534962.png)
+   ![](DataStructure5.assets/1678005534962.png)
 
    > 调整原子: 降低高度.  保持二叉排序树性质 . 不用管什么转不转的.
 
    - 调整过程:
 
    **LL型调整过程:**
-   ![1678005992848](DataStructure5.assets/1678005992848.png)
+   ![](DataStructure5.assets/1678005992848.png)
 
-   ![1678006131973](DataStructure5.assets/1678006131973.png)
+   ![](DataStructure5.assets/1678006131973.png)
 
-   ![1678006202893](DataStructure5.assets/1678006202893.png)
+   ![](DataStructure5.assets/1678006202893.png)
 
    **RR型调整过程:**
 
-   ![1678006281754](DataStructure5.assets/1678006281754.png)
+   ![](DataStructure5.assets/1678006281754.png)
 
-   ![1678006392942](DataStructure5.assets/1678006392942.png)
+   ![](DataStructure5.assets/1678006392942.png)
 
-   ![1678006457564](DataStructure5.assets/1678006457564.png)![1678006505978](DataStructure5.assets/1678006505978.png)
+   ![](DataStructure5.assets/1678006457564.png)![](DataStructure5.assets/1678006505978.png)
 
    **LR型调整过程:**
 
-   ![1678006604226](DataStructure5.assets/1678006604226.png)
+   ![](DataStructure5.assets/1678006604226.png)
 
-   ![1678006643326](DataStructure5.assets/1678006643326.png)
+   ![](DataStructure5.assets/1678006643326.png)
 
-   ![1678006691424](DataStructure5.assets/1678006691424.png)
+   ![](DataStructure5.assets/1678006691424.png)
 
    **RL型调整过程:**
 
    跟LR型类似:
 
-   ![1678006797620](DataStructure5.assets/1678006797620.png)
+   ![](DataStructure5.assets/1678006797620.png)
 
    例子:
 
-   ![1678006951127](DataStructure5.assets/1678006951127.png)
+   ![](DataStructure5.assets/1678006951127.png)
 
-   ![1678006973787](DataStructure5.assets/1678006973787.png)
+   ![](DataStructure5.assets/1678006973787.png)
 
 例子:
 
 输入关键字序列(16, 3, 7, 11,9,26,18,14,15 ), 给出构造一颗AVL数的步骤:
-![1678007691224](DataStructure5.assets/1678007691224.png)
-![1678007805048](DataStructure5.assets/1678007805048.png)
-![1678007981382](DataStructure5.assets/1678007981382.png)
+![](DataStructure5.assets/1678007691224.png)
+![](DataStructure5.assets/1678007805048.png)
+![](DataStructure5.assets/1678007981382.png)
 
-![1678008026034](DataStructure5.assets/1678008026034.png)
+![](DataStructure5.assets/1678008026034.png)
 
-​	![1678008105361](DataStructure5.assets/1678008105361.png)
+​	![](DataStructure5.assets/1678008105361.png)
 
 结束. 上面的过程所有的4种调整都有了. 当平衡的二叉排序树因插入结点而失去平衡时, 仅需对最小不平衡子树
 进行平衡旋转处理即可.
 
 3. **平衡二叉树的插入**
 
-   ![1678008241618](DataStructure5.assets/1678008241618.png)
+   ![](DataStructure5.assets/1678008241618.png)
 
 ## 7.4 散列表的查找
 
 前面讨论了基于线性表, 树表结构的查找方法, 这类查找方法都是以关键字的比较为基础的. 在查找过程中`只考虑各元素关键字之间的相对大小`, 记录`在存储结构中的位置`和其`关键字`无直接关系, 其查找时间与表的长度有关, 特别是当结点个数很多时, 查找时要`大量地与无效结点的关键字`进行`比较`, 致使查找速度很慢. 如果能**在元素的存储位置和其关键字之间建立某种直接关系**, 那么在进行查找时, 就无需做比较或做很少次的比较, 按照这种关系直接由关键字找到相应的记录. 这就是散列查找法 (Hash Search)的思想, 它**通过对元素的关键字值进行某种运算, 直接求出元素的地址, 即: 使用关键字到地址的直接转换方法, 而不需要反复比较**. 因此, 散列查找法又叫杂凑法或散列法。
 
-![1678026848349](DataStructure5.assets/1678026848349.png)
+![](DataStructure5.assets/1678026848349.png)
 
 下面给出散列法中常用的几个术语:
 (1) `散列函数`和`散列地址`: 在记录的`存储位置p`和其`关键字key`之间建立`一个确定`的`对应关系H`, 使`p=H(key)`, 称这个对应关系H为`散列函数`，p为`散列地址`。
@@ -524,11 +520,11 @@ int Search_Bin(SSTable ST, KeyType key, int low, int high)
 
 例子:
 
-![1678027538411](DataStructure5.assets/1678027538411.png)
+![](DataStructure5.assets/1678027538411.png)
 
 例子:
 
-![1678027660447](DataStructure5.assets/1678027660447.png)
+![](DataStructure5.assets/1678027660447.png)
 
 根据哈希函数H(key) = k 查找key = 9, H(9) = 9; 找到地址直接访问.
 

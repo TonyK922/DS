@@ -272,19 +272,19 @@ ADT Circle{
 
   它表示随问题规模n的增大, 算法执行时间的增长率和`f(n)`的增长率相同， 称做算法的渐近时间复杂度， 简称时间复杂度(TimeComplexity)。我们用"O"来表示数量级.
 
-  ![1675511533486](DataStructure0.assets/1675511533486.png)
+  ![](DataStructure0.assets/1675511533486.png)
 
   所以, 一般情况下, 不用计算所有操作的执行次数, 而是考虑算法中的基本操作执行的次数, 它是问题规模n的某个函数.用T(n)表示.
 
 - 分析算法时间复杂度的基本方法
 
-  ![1675524275532](DataStructure0.assets/1675524275532.png)
+  ![](DataStructure0.assets/1675524275532.png)
 
   1. 找出语句频度最大的那条语句作为基本语句
   2. 计算基本语句的频度得到问题规模n的某个函数f(n)
   3. 取其数量级用符号"O"表示
 
-  ![1675525461979](DataStructure0.assets/1675525461979.png)
+  ![](DataStructure0.assets/1675525461979.png)
 
   注意: 有些情况下, 算法中的基本操作重复执行的次数还随问题的输入数据集不同而不同.
 
@@ -318,7 +318,7 @@ ADT Circle{
 
   `T(n) = T1(n) x T2(n) = O(f(n)) x O(g(n)) = O( f(n) x g(n) )`
 
-  ![1675526828073](DataStructure0.assets/1675526828073.png)
+  ![](DataStructure0.assets/1675526828073.png)
 
 - 渐进空间复杂度 
 
@@ -351,7 +351,7 @@ ADT Circle{
 
 ## 1.5 小结
 
-![1675527638705](DataStructure0.assets/1675527638705.png)
+![](DataStructure0.assets/1675527638705.png)
 
 (1) 数据结构是一门研究非数值计算程序设计中操作对象,  以及这些对象之间的关系和操作的学科。
 
@@ -367,7 +367,7 @@ b. 存储结构是逻辑结构在计算机中的存储表示，有两类存储�
 
 (5) 算法分析的两个主要方面是分析算法的时间复杂度和空间复杂度， 以考察算法的时间和空间效率。一般情况下， 鉴于运算空间较为充足， 故将算法的时间复杂度作为分析的重点。算法执行时间的数量级称为算法的渐近时间复杂度，T(n) = O(f(n) ), 它表示随着问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同， 简称时间复杂度。
 
-![1675575069019](DataStructure0.assets/1675575069019.png)
+![](DataStructure0.assets/1675575069019.png)
 
 # 第2章 线性表
 
@@ -385,7 +385,7 @@ an: 线性终点, 终端节点
 
 n=0时, 为空表. n为元素总个数, 即表长
 
-![1675584301341](DataStructure0.assets/1675584301341.png)
+![](DataStructure0.assets/1675584301341.png)
 
 同一线性表中的元素必定具有相同的特性， 即属千同一数据对象， 相邻数据元素之间存在着序偶关系。
 
@@ -395,21 +395,21 @@ n=0时, 为空表. n为元素总个数, 即表长
 (3) 除第一个之外， 结构中的每个数据元素均只有一个前驱；
 (4) 除最后一个之外，结构中的每个数据元素均只有一个后继。
 
-![1675584579702](DataStructure0.assets/1675584579702.png)
+![](DataStructure0.assets/1675584579702.png)
 
 ## 2.2 案例
 
-![1675587089163](DataStructure0.assets/1675587089163.png)
+![](DataStructure0.assets/1675587089163.png)
 
 - 稀疏多项式
 
-![1675587466811](DataStructure0.assets/1675587466811.png)
+![](DataStructure0.assets/1675587466811.png)
 
 - 稀疏多项式的运算:
 
-![1675587786964](DataStructure0.assets/1675587786964.png)
+![](DataStructure0.assets/1675587786964.png)
 
-![1675588892393](DataStructure0.assets/1675588892393.png)
+![](DataStructure0.assets/1675588892393.png)
 
 - 顺序存储结构存在问题:
 
@@ -419,11 +419,11 @@ n=0时, 为空表. n为元素总个数, 即表长
 
   我们选择用链式存储. 链表, 上.
 
-![1675588982084](DataStructure0.assets/1675588982084.png)
+![](DataStructure0.assets/1675588982084.png)
 
 相同项系数相加, 结果放A链表里. A中没有的项, 插入进来.
 
-![1675589091813](DataStructure0.assets/1675589091813.png)
+![](DataStructure0.assets/1675589091813.png)
 
 - 不同的问题所涉元素的数据类型不尽相同，可以为简单数据类型，也可以为复杂数据类型.
 - 这些问题所涉的基本操作都具有很大的相似性， 如果为每个具体应用都编一个程序显然不是一种很好的方法。
@@ -435,7 +435,7 @@ n=0时, 为空表. n为元素总个数, 即表长
 
 线性表是一个相当灵活的数据结构，其长度可根据需要增长或缩短，即对线性表的数据元素不仅可以进行访问，而且可以进行插入和删除等操作。
 
-![1675608209263](DataStructure0.assets/1675608209263.png)
+![](DataStructure0.assets/1675608209263.png)
 
 a(i-1) 是ai的前趋, ai是a(i-1)的后继.
 
@@ -615,7 +615,7 @@ typedef struct {  //动态分配.  如果要静态分配直接写数组就行了
   当在顺序表中查找一个数据元素时，其时间主要耗费在数据的比较上， 而比较的次数取决于被查元素在线性表中的位置。
   在查找时， 为确定元素在顺序表中的位置， 需和给定值进行比较的数据元素个数的期望值称为查找算法在查找成功时的平均查找长度(Average Search Length, ASL)。
 
-  ![1675657798767](DataStructure0.assets/1675657798767.png)
+  ![](DataStructure0.assets/1675657798767.png)
 
   假设每个元素的查找概率相等, 即: `Pi=1/n`,  则上面的式子就可以简化为: `ASL = (n+1)/2`. 
 
@@ -629,9 +629,9 @@ typedef struct {  //动态分配.  如果要静态分配直接写数组就行了
 
   顺序表插入的特点, 就是元素需要依次后移, 插在最后除外.
 
-  ![1675664733328](DataStructure0.assets/1675664733328.png)
+  ![](DataStructure0.assets/1675664733328.png)
 
-  ![1675665127915](DataStructure0.assets/1675665127915.png)
+  ![](DataStructure0.assets/1675665127915.png)
 
   ```c
   int ListInsert_Sq(SqList *L, int i, ElemType e)
@@ -648,10 +648,10 @@ typedef struct {  //动态分配.  如果要静态分配直接写数组就行了
   }
   ```
 
-  [算法分析]
+ \[算法分析]
   当在顺序表中某个位置上插入一个数据元素时, 其时间主要耗费在移动元素上, 而移动元素的个数取决于插入元素的位置。
 
-  ![1675666020270](DataStructure0.assets/1675666020270.png)
+  ![](DataStructure0.assets/1675666020270.png)
 
 - 删除 
 
@@ -700,13 +700,13 @@ int ListDelete(SqList *L, int i)
 
 又由于此链表的每个结点中只包含一个指针域，故又称线性链表或`单链表`。
 
-![1675668601538](DataStructure0.assets/1675668601538.png)
+![](DataStructure0.assets/1675668601538.png)
 
 > 根据链表结点所含指针个数、指针指向和指针连接方式，可将链表分为单链表、循环链表、双向链表、二叉链表、十字链表、邻接表、邻接多重表等。其中单链表、循环链表和双向链表用于实现线性表的链式存储结构，其他形式多用于实现树和图等非线性结构。
 
-![1675668620594](DataStructure0.assets/1675668620594.png)
+![](DataStructure0.assets/1675668620594.png)
 
-​用单链表表示线性表时，数据元素之间的逻辑关系是由结点中的指针指示的。换句话说，指针为数据元素之间的逻辑关系的映像，则逻辑上相邻的两个数据元素其存储的物理位置不要求紧邻，由此，这种存储结构为**非顺序映像或链式映像**。	![1675668768127](DataStructure0.assets/1675668768127.png)
+​用单链表表示线性表时，数据元素之间的逻辑关系是由结点中的指针指示的。换句话说，指针为数据元素之间的逻辑关系的映像，则逻辑上相邻的两个数据元素其存储的物理位置不要求紧邻，由此，这种存储结构为**非顺序映像或链式映像**。	![](DataStructure0.assets/1675668768127.png)
 
 一般情况下，为了处理方便，在单链表的第一个结点之前附设一个结点，称之为**头结点**。
 
@@ -716,11 +716,11 @@ int ListDelete(SqList *L, int i)
 
 单链表是由**表头指针**唯一确定，因此单链表可以用头指针的名宇来命名。若头指针名是L, 则简称该链表为表L。
 
-![1675668852036](DataStructure0.assets/1675668852036.png)
+![](DataStructure0.assets/1675668852036.png)
 
-![1675668891029](DataStructure0.assets/1675668891029.png)
+![](DataStructure0.assets/1675668891029.png)
 
-![1675669125344](DataStructure0.assets/1675669125344.png)
+![](DataStructure0.assets/1675669125344.png)
 
 链表增加头结点的作用如下: 
 (1) 便于首元结点的处理
@@ -735,7 +735,7 @@ int ListDelete(SqList *L, int i)
 
 单链表是**非随机存取**的存储结构，要取得第i个数据元素必须从头指针出发顺链进行寻找，也称为**顺序存取**的存取结构。
 
-![1675669998088](DataStructure0.assets/1675669998088.png)
+![](DataStructure0.assets/1675669998088.png)
 
 - 定义数据结构
 
@@ -803,7 +803,7 @@ int ListDelete(SqList *L, int i)
 
   从头指针开始, 依次释放所有节点.
 
-  ![1675677554979](DataStructure0.assets/1675677554979.png)
+  ![](DataStructure0.assets/1675677554979.png)
 
   ```c
   int DestroyList(LinkList p)
@@ -931,7 +931,7 @@ int ListDelete(SqList *L, int i)
 
   在第 i 个节点前插入值为e的新节点
 
-  ![1675688622616](DataStructure0.assets/1675688622616.png)
+  ![](DataStructure0.assets/1675688622616.png)
 
   ```c
   int InsertList(LinkList L, unsigned i, ElemType e)
@@ -1049,7 +1049,7 @@ int ListDelete(SqList *L, int i)
 
     链表的反转, 就是用头插法.
 
-    ![1675746286869](DataStructure0.assets/1675746286869.png)
+    ![](DataStructure0.assets/1675746286869.png)
 
     ```c
     void CreateList_H(LinkList *L,int n) //L是二级指针 n是多少个结点(头结点不算)
@@ -1094,7 +1094,7 @@ int ListDelete(SqList *L, int i)
   - 尾插法 (后插法)
     后插法是通过将新结点逐个插入到链表的尾部来创建链表. 同前插法一样, 每次申请一个新结点, 读入相应的数据元素值. 不同的是, 为了使新结点能够插入到表尾, 需要增加一个尾指针r指向链表的尾结点。
 
-    ![1675747439340](DataStructure0.assets/1675747439340.png)
+    ![](DataStructure0.assets/1675747439340.png)
 
     ```c
     void CreateList_R(LinkList *L,int n) //L是二级指针
@@ -1119,13 +1119,13 @@ int ListDelete(SqList *L, int i)
 
 循环链表(CircularLinked List)是另一种形式的链式存储结构。其特点是表中最后一个结点的指针域指向头结点，整个链表形成一个环。由此，从表中任一结点出发均可找到表中其他结点.
 
-![1675763830636](DataStructure0.assets/1675763830636.png)
+![](DataStructure0.assets/1675763830636.png)
 
 循环单链表的操作和单链表基本一致，差别仅在于：当链表遍历时， 判别当前指针p是否指向表尾结点的终止条件不同。在单链表中，判别条件为`p != NULL`或 `p->next != NULL`, 而循环单链表的判别条件为`p != L 或 p->next != L` 。
 
 在某些情况下，若在循环链表中设立尾指针而不设头指针可使一些操作简化。例如，将两个线性表合并成一个表时，仅需将第一个表的尾指针指向第二个表的第一个结点， 第二个表的尾指针指向第一个表的头结点， 然后释放第二个表的头结点。
 
-![1675764290557](DataStructure0.assets/1675764290557.png)
+![](DataStructure0.assets/1675764290557.png)
 
 有了尾指针, 把两个循环链表合成一个, 就好操作了 .
 ```c
@@ -1136,7 +1136,7 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
 
 时间复杂度为O(1).
 
-![1675765003943](DataStructure0.assets/1675765003943.png)
+![](DataStructure0.assets/1675765003943.png)
 
 - 带尾指针循环链表的合并
 
@@ -1168,22 +1168,22 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
   } DuLNode,*DuLinkList;
   ```
 
-  ![1675765786656](DataStructure0.assets/1675765786656.png)
+  ![](DataStructure0.assets/1675765786656.png)
 
 - 双向循环链表
 
-  ![1675765912603](DataStructure0.assets/1675765912603.png)
+  ![](DataStructure0.assets/1675765912603.png)
 
 在双向链表中, 若d为指向表中某一结点的指针(即d为DuLinkList 型变量), 则显然有
 `d->next->prior = d->prior->next = d`   这个表示方式恰当地反映了这种结构的特性。
 
 在双向链表中， 有些操作（如`ListLength`、`GetElem` 和`LocateElem` 等）仅需涉及一个方向的指针，则它们的算法描述和线性链表的操作相同，但在插入、删除时有很大的不同，在双向链表中需同时修改两个方向上的指针，图2.20和图2.21 分别显示了插入和删除结点时指针修改的情况。在插入结点时需要修改四个指针，在删除结点时需要修改两个指针。它们的实现分别如算法2.13和算法2.14 所示，两者的时间复杂度均为O(n)。
 
-![1675766792235](DataStructure0.assets/1675766792235.png)
+![](DataStructure0.assets/1675766792235.png)
 
 - 双向链表的插入
 
-  ![1675768577436](DataStructure0.assets/1675768577436.png)
+  ![](DataStructure0.assets/1675768577436.png)
 
   ```c
   int Listinsert_DuL(DuLinkList L,int i, ElemType e)
@@ -1214,7 +1214,7 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
   ```
 
 - 双向链表的删除
-  ![1675777231664](DataStructure0.assets/1675777231664.png)
+  ![](DataStructure0.assets/1675777231664.png)
 
   ```c
   int ListDelete_DuL(DuLinkList L,int i)
@@ -1247,11 +1247,11 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
 
 -  2.5.5 单链, 循环链, 双向链表的时间效率比较
 
-![1675780241476](DataStructure0.assets/1675780241476.png)
+![](DataStructure0.assets/1675780241476.png)
 
 - 静态链表
 
-  ![1676882821114](DataStructure0.assets/1676882821114.png)
+  ![](DataStructure0.assets/1676882821114.png)
 
   ```c
   #define MAXSIZE 10
@@ -1262,7 +1262,7 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
   typedef struct Node SLinkList[MAXSIZE];
   ```
 
-  ![1676883246309](DataStructure0.assets/1676883246309.png)
+  ![](DataStructure0.assets/1676883246309.png)
 
 ## 2.6 顺序表和链表的比较
 
@@ -1296,11 +1296,11 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
   - 顺序表是由数组实现的, 它是一种随机存取结构, 指定任意一个位置序号i都可以在O(1)时间内直接存取该位置上的元素, 即取值操作的效率高.
   - 若线性表的主要操作是和元素位置紧密相关的这类取值操作，很少做插入或删除时，宜采用顺序表作为存储结构。
 
-![1675822327479](DataStructure0.assets/1675822327479.png)
+![](DataStructure0.assets/1675822327479.png)
 
 ## 2.7 线性表的应用
 
-![1675823920678](DataStructure0.assets/1675823920678.png)
+![](DataStructure0.assets/1675823920678.png)
 
 - 线性表的合并
 
@@ -1384,7 +1384,7 @@ A->next = p;      //A的尾结点, 指向B的首元节点.
 
   需设立3个指针pa, pb 和pc, 其中pa 和pb 分别指向LA和LB中当前待比较插入的结点，而pc 指向LC中当前最后一个结点(LC的表头结点设为LA的表头结点). 指针的初值为：pa 和pb 分别指向LA和LB表中的第一个结点，pc 指向空表LC中的头结点。同算法2.16一样，通过比较指针pa 和pb 所指向的元素的值，依次从LA或LB中“摘取“ 元素值较小的结点插入到LC 的最后，当其中一个表变空时，只要将另一个表的剩余段链接在pc 所指结点之后即可。
 
-  ![1675843381648](DataStructure0.assets/1675843381648.png)
+  ![](DataStructure0.assets/1675843381648.png)
 
 ```c
 void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
@@ -1414,11 +1414,11 @@ void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
 
 时间复杂度: O(LA->Length + LB->Length).  空间复杂度 O(1).
 
-![1675855620780](DataStructure0.assets/1675855620780.png)
+![](DataStructure0.assets/1675855620780.png)
 
 > 这个没有增删, 用顺序表 数组就好.
 
-![1675856116526](DataStructure0.assets/1675856116526.png)
+![](DataStructure0.assets/1675856116526.png)
 
 - 创建一个新数组C
 - 分别从头遍历a数组跟b数组的每一项
@@ -1429,7 +1429,7 @@ void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
 
 - 换链式存储
 
-  ![1675856612458](DataStructure0.assets/1675856612458.png)
+  ![](DataStructure0.assets/1675856612458.png)
 
   数据域两个数据, 一个指针域.
 
@@ -1447,7 +1447,7 @@ void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
   1. 多项式的创建
       多项式的创建方法类似于链表的创建方法, 区别在于多项式链表是一个有序表, 每项的位置要经过比较才能确定. 首先初始化一个空链表用来表示多项式, 然后逐个输入各项, 通过比较, 找到第一个大于该输入项指数的项, 将输入项插到此项的前面, 这样即可保证多项式链表的有序性.
 
-    ![1675857932058](DataStructure0.assets/1675857932058.png)
+    ![](DataStructure0.assets/1675857932058.png)
 
   ```c
   void CreatePolyn(Polynomial *P, int n) // 二级指针 传个指针的地址来 应该就是头指针的地址
@@ -1478,11 +1478,11 @@ void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
   2. 多项式的相加
       创建两个多项式链表后, 便可以进行多项式的加法运算了. 假设头指针为Pa和Pb的单链表分别为多项式A和B的存储结构, 指针p1和p2分别指向A和B中当前进行比较的某个结点，则逐一比较两个结点中的指数项, 对于指数相同的项, 对应系数相加, 若其和不为零, 则将插入到“和多项式”链表中去; 对于指数不相同的项， 则通过比较将指数值较小的项插入到“和多项式” 链表中去。
 
-   ![1675862262549](DataStructure0.assets/1675862262549.png)
+   ![](DataStructure0.assets/1675862262549.png)
 
   算法步骤:
 
-  ![1675864215232](DataStructure0.assets/1675864215232.png)
+  ![](DataStructure0.assets/1675864215232.png)
 
   ```c
   void AddPolyn(Polynomial Pa,Polynomial Pb) 
@@ -1542,8 +1542,8 @@ void MergeList_L(LinkList LA, LinkList LB, LinkList *LC)
 
 (2)  对于顺序表，元素存储的相邻位置反映出其逻辑上的线性关系，可借助数组来表示。给定数组的下标， 便可以存取相应的元素，可称为随机存取结构。而对千链表，是依靠指针来反映其线性逻辑关系的，链表结点的存取都要从头指针开始，顺链而行，所以不属千随机存取结构，可称之为顺序存取结构。不同的特点使得顺序表和链表有不同的适用情况，表2.2分别从空间、时间和适用情况3方面对二者进行了比较。
 
-![1675926822673](DataStructure0.assets/1675926822673.png)
+![](DataStructure0.assets/1675926822673.png)
 
 (3) 对于链表，除了常用的单链表外，在本章还讨论了两种不同形式的链表， 即循环链表和双向链表，它们有不同的应用场合。
 
-![1675926855573](DataStructure0.assets/1675926855573.png)
+![](DataStructure0.assets/1675926855573.png)

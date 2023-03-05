@@ -1,8 +1,8 @@
 # 第5章 树和二叉树
 
-![1676448529917](DataStructure3.assets/1676448529917.png)
+![](DataStructure3.assets/1676448529917.png)
 
-![1676448583848](DataStructure3.assets/1676448583848.png)
+![](DataStructure3.assets/1676448583848.png)
 
 ## 5.1 树和二叉树的定义
 
@@ -13,7 +13,7 @@
 (1) 有且仅有一个称之为根的结点；
 (2) 除根结点以外的其余结点可分为m(m>0)个互不相交的有限集T1, T2 , …, Tm, 其中每一个集合本身又是一棵树， 并且称为根的子树(SubTree)。
 
-![1676449829436](DataStructure3.assets/1676449829436.png)
+![](DataStructure3.assets/1676449829436.png)
 
 树的结构定义是一个递归的定义，即在树的定义中又用到树的定义，它道出了**树的固有特性**。
 
@@ -46,15 +46,15 @@
 (13)`有序树和无序树`：如果将树中结点的各子树看成从左至右是有次序的(即不能互换), 则称该树为有序树, 否则称为无序树。在有序树中最左边的子树的根称为第一个孩子，最右边的称为最后一个孩子.
 
 (14)`森林`：是m (m>=0)棵互不相交的树的集合。对树中每个结点而言，其子树的集合即为森林。由此，也可以用森林和树相互递归的定义来描述树。B,C,D 为根的树, 组成一个森林.
-![1676451948491](DataStructure3.assets/1676451948491.png)
+![](DataStructure3.assets/1676451948491.png)
 
-![1676451728603](DataStructure3.assets/1676451728603.png)
+![](DataStructure3.assets/1676451728603.png)
 
-![1676451980616](DataStructure3.assets/1676451980616.png)
+![](DataStructure3.assets/1676451980616.png)
 
 ### 5.1.3 二叉树的定义
 
-![1676452301070](DataStructure3.assets/1676452301070.png)
+![](DataStructure3.assets/1676452301070.png)
 
 - 定义:
 
@@ -75,11 +75,11 @@
 - 二叉树结点的子树, 要区分左子树与右子树, 即使只有一棵树, 也必须要区分, 说明它是左子树还是右子树.
 - 树中当结点只有一个孩子时, 就不必区分左右的次序问题. 这也是树与二叉树的主要区别.
 
-![1676453064493](DataStructure3.assets/1676453064493.png)
+![](DataStructure3.assets/1676453064493.png)
 
-![1676453142558](DataStructure3.assets/1676453142558.png)
+![](DataStructure3.assets/1676453142558.png)
 
-![1676453173227](DataStructure3.assets/1676453173227.png)
+![](DataStructure3.assets/1676453173227.png)
 
 ## 5.2 案例引入
 
@@ -87,28 +87,28 @@
 
 案例5.1: 数据压缩问题。
 
-![1676453394064](DataStructure3.assets/1676453394064.png)
+![](DataStructure3.assets/1676453394064.png)
 
 案例5.2: 利用二叉树求解表达式的值。
 
-![1676453403264](DataStructure3.assets/1676453403264.png)
+![](DataStructure3.assets/1676453403264.png)
 
 ## 5.3 树和二叉树的抽象数据类型定义
 
 - 树的ADT
 
-![1676453830979](DataStructure3.assets/1676453830979.png)
+![](DataStructure3.assets/1676453830979.png)
 
-![1676453873780](DataStructure3.assets/1676453873780.png)
+![](DataStructure3.assets/1676453873780.png)
 
-![1676453890017](DataStructure3.assets/1676453890017.png)
+![](DataStructure3.assets/1676453890017.png)
 
 - 二叉树的ADT
 
 > 二叉树是非常重要的一个数据结构, 跟前面链表, 顺序, 数组一样重要.
 
-![1676454197075](DataStructure3.assets/1676454197075.png)
-![1676454207962](DataStructure3.assets/1676454207962.png)
+![](DataStructure3.assets/1676454197075.png)
+![](DataStructure3.assets/1676454207962.png)
 
 基本操作过多....
 
@@ -124,7 +124,7 @@
 
 - 性质3: 对任何一棵二叉树T, 如果其终端结点数为n0, 度为2的结点数为`n2`, 则`n0 = n2+1`.(叶子结点比度为2的结点多一个)
 
-  ![1676465305117](DataStructure3.assets/1676465305117.png)
+  ![](DataStructure3.assets/1676465305117.png)
 
 - **两种特殊二叉树**
 
@@ -144,7 +144,7 @@
 
     2. 每个节点位置都有元素.
 
-       ![1676467097235](DataStructure3.assets/1676467097235.png)
+       ![](DataStructure3.assets/1676467097235.png)
 
     满二叉树在同样深度的二叉树中, 结点数是最多的.
 
@@ -156,13 +156,13 @@
 
     > 编号编的跟满二叉树一样, 但不是满二叉树. 
 
-    ![1676468126788](DataStructure3.assets/1676468126788.png)
+    ![](DataStructure3.assets/1676468126788.png)
 
     从满二叉树的最后一个结点开始(从由往左), 连续去掉任意个结点, 即是一个完全二叉树.  一定是连续去掉.
 
     下面这个就不是完全二叉树.
 
-    ![1676468478006](DataStructure3.assets/1676468478006.png)
+    ![](DataStructure3.assets/1676468478006.png)
 
     完全二叉树的特点是：
     (1) 叶子结点只可能在层次最大的两层上出现；(叶子只能在最后两层.)
@@ -174,15 +174,15 @@
 
     若完全二叉树有2k-1(奇数)个结点, 则必有你n1=0, n0=k, n2=k-1.	
 
-- ![1676469459295](DataStructure3.assets/1676469459295.png)
+- ![](DataStructure3.assets/1676469459295.png)
 
   知道完全二叉树的结点数, 就可以知道这个完全二叉树的深度了.
 
-- ![1676469797835](DataStructure3.assets/1676469797835.png)
+- ![](DataStructure3.assets/1676469797835.png)
 
-  ![1676469924364](DataStructure3.assets/1676469924364.png)
+  ![](DataStructure3.assets/1676469924364.png)
 
-  ![1676470106910](DataStructure3.assets/1676470106910.png)
+  ![](DataStructure3.assets/1676470106910.png)
 
 ### 5.4.2 二叉树的存储结构
 
@@ -196,7 +196,7 @@
 
   对于**完全二叉树**, 只要从根起按层序存储即可, 依次自上而下, 自左至右存储结点元素, 即将完全二叉树上编号为`i`的结点元素存储在如上定义的一维数组中下标为`i-1`的分量中。
 
-  ![1676470782091](DataStructure3.assets/1676470782091.png)
+  ![](DataStructure3.assets/1676470782091.png)
 
   ```c
   //-----二叉树的顺序存储表示－－－－－
@@ -217,7 +217,7 @@
 
   对于一般二叉树，则应将其每个结点与完全二叉树上的结点相对照，存储在一维数组的相应分量中.
 
-  ![1676471433036](DataStructure3.assets/1676471433036.png)
+  ![](DataStructure3.assets/1676471433036.png)
 
   空着的, 用0填充. 其实还是满二叉树的编号法.
 
@@ -233,7 +233,7 @@
 
 由此可见, 这种顺序存储结构仅适用于完全二叉树. 因为, 在最坏的情况下, 一个深度为k且只有k个结点的`单支树`(树中不存在度为2的结点)却需要长度为`2^k-1`的一维数组. 这造成了存储空间的极大浪费, 所以对于一般二叉树, 更适合采取下面的链式存储结构.
 
-![1676472337699](DataStructure3.assets/1676472337699.png)
+![](DataStructure3.assets/1676472337699.png)
 
 - 链式存储结构
 
@@ -241,9 +241,9 @@
 
   利用这两种结点结构所得二叉树的存储结构分别称之为二叉链表和三叉链表.
 
-  ![1676472953116](DataStructure3.assets/1676472953116.png)
+  ![](DataStructure3.assets/1676472953116.png)
 
-  ![1676472972853](DataStructure3.assets/1676472972853.png)
+  ![](DataStructure3.assets/1676472972853.png)
 
   ```c
   //-----二叉树的二叉链表存储表示－－－－－
@@ -275,13 +275,13 @@
 
   左子树和右子树又是一个二叉排序树.
 
-  ![1677069818038](DataStructure3.assets/1677069818038.png)
+  ![](DataStructure3.assets/1677069818038.png)
 
 - 平衡二叉树
 
   树上任一结点的左子树和右子树的深度之差不超过1.
 
-  ![1677070154084](DataStructure3.assets/1677070154084.png)
+  ![](DataStructure3.assets/1677070154084.png)
 
 ## 5.5 遍历二叉树和线索二叉树
 
@@ -307,27 +307,27 @@
 
 若限定`先左后右`，则只有前3种情况，分别称之为`先(根)序遍历`、`中(根)序遍历`和`后(根)序遍历`.
 
-![1676529045507](DataStructure3.assets/1676529045507.png)
+![](DataStructure3.assets/1676529045507.png)
 
 先序遍历二叉树的操作定义如下：
 
 - 先序遍历
 
-![1676529455176](DataStructure3.assets/1676529455176.png)
+![](DataStructure3.assets/1676529455176.png)
 
 - 中序遍历
 
-  ![1676530046333](DataStructure3.assets/1676530046333.png)
+  ![](DataStructure3.assets/1676530046333.png)
 
 - 后序遍历
 
-  ![1676530143126](DataStructure3.assets/1676530143126.png)
+  ![](DataStructure3.assets/1676530143126.png)
 
 练习一下:
 
-![1676530592592](DataStructure3.assets/1676530592592.png)
+![](DataStructure3.assets/1676530592592.png)
 
-![1676530755518](DataStructure3.assets/1676530755518.png)
+![](DataStructure3.assets/1676530755518.png)
 
 - > **根据遍历序列确定二叉树**
 
@@ -339,9 +339,9 @@
 
   **先序+中序**
 
-  ![1677126988088](DataStructure3.assets/1677126988088.png)
+  ![](DataStructure3.assets/1677126988088.png)
 
-  ![1676532938701](DataStructure3.assets/1676532938701.png)
+  ![](DataStructure3.assets/1676532938701.png)
 
   先序可以初步确定, A是根, B是A的左子树的根. 中序的CDB可以确定, C是B的左子树的根, D是C的右孩子.
 
@@ -349,27 +349,27 @@
 
   先序的GHIJ 跟中序的IHGJ 可以确定, G是A的右子树的根,  J是G的右孩子, H是G的左子树的根, I是H的左孩子.
 
-  ![1676533456481](DataStructure3.assets/1676533456481.png)
+  ![](DataStructure3.assets/1676533456481.png)
 
   **中序+后序**
 
-  ![1677129716553](DataStructure3.assets/1677129716553.png)
+  ![](DataStructure3.assets/1677129716553.png)
 
-  ![1676533680060](DataStructure3.assets/1676533680060.png)
+  ![](DataStructure3.assets/1676533680060.png)
 
 > 先序跟后序没法确定根.
 
 ​	**层序+中序**
 
-​	![1677129800115](DataStructure3.assets/1677129800115.png)
+​	![](DataStructure3.assets/1677129800115.png)
 
 > 缺了中序就不能确定二叉树.
 >
-> ![1677130791295](DataStructure3.assets/1677130791295.png)
+> ![](DataStructure3.assets/1677130791295.png)
 
 - 遍历的算法实现  先序遍历
 
-  ![1676534441415](DataStructure3.assets/1676534441415.png)
+  ![](DataStructure3.assets/1676534441415.png)
 
   ```c
   int PreOrderTraverse(BiTree T)   //递归算法.
@@ -383,11 +383,11 @@
   }
   ```
 
-  ![1676535007454](DataStructure3.assets/1676535007454.png)
+  ![](DataStructure3.assets/1676535007454.png)
 
 - 遍历的算法实现  中序遍历
 
-  ![1676535357020](DataStructure3.assets/1676535357020.png)
+  ![](DataStructure3.assets/1676535357020.png)
 
   ```c
   int InOrderTraverse(BiTree T)   //递归算法.
@@ -518,7 +518,7 @@
 
   **算法5.3 先序遍历的顺序建立二叉链表**
 
-  ![1676621211395](DataStructure3.assets/1676621211395.png)
+  ![](DataStructure3.assets/1676621211395.png)
 
   只有一个先序序列的话, 是没有办法确定唯一的二叉树的. 所以需要添加空位.
 
@@ -656,13 +656,13 @@
 
   这种改变指向的指针, 称为线索. 加了线索的二叉树, 就是线索二叉树.
 
-  ![1676636551109](DataStructure3.assets/1676636551109.png)
+  ![](DataStructure3.assets/1676636551109.png)
 
   > `LTag` 为0时, 指向`左孩子`, 为1时指向`前趋`. `RTag` 为0时指向`右孩子`, 为1时指向`后继`.
   >
   > 注意这里的前趋和后继, 不是二叉树意义上的前趋后继, 而是 二叉树以某个序列遍历, 出来一个线性顺序. 按着顺序排前趋后继.
 
-  ![1677131233391](DataStructure3.assets/1677131233391.png)
+  ![](DataStructure3.assets/1677131233391.png)
 
   ```c
   //-----二叉树的二叉线索存储表示-------
@@ -676,22 +676,22 @@
 
   以这种结点结构构成的二叉链表作为二叉树的存储结构，叫做`线索链表`，其中指向结点前驱和后继的指针，叫做`线索`。加上线索的二叉树称之为`线索二叉树`(Threaded Binary Tree)。对二叉树以某种次序遍历使其变为线索二叉树的过程叫做`线索化`。
 
-  ![1676637748591](DataStructure3.assets/1676637748591.png)
+  ![](DataStructure3.assets/1676637748591.png)
 
   > A的孩子是B和D, 但A的后继是B.
 
-  ![1676637809063](DataStructure3.assets/1676637809063.png)
+  ![](DataStructure3.assets/1676637809063.png)
 
-  ![1676637926576](DataStructure3.assets/1676637926576.png)
+  ![](DataStructure3.assets/1676637926576.png)
 
 为了方便起见，仿照线性表的存储结构，在二叉树的线索链表上也添加一个`头结点`，并令其lchild 域的指针指向二叉树的根结点，其rchild 域的指针指向中序遍历时访问的最后一个结点；同时，令二叉树中序序列中第一个结点的lchild 域指针和最后一个结点rchild域的指针均指向头结点。这好比为二叉树建立了一个双向线索链表，既可从第一个结点起顺后继进行遍历，也可从最后一个结点起顺前驱进行遠历。
 
 例如图5.16(a)所示为中序线索二叉树，与其对应的中序线索链表如图5.16(b)所示。其中实线为指针（指向左、右子树），虚线为线索（指向前驱和后继）。
-![1676638275199](DataStructure3.assets/1676638275199.png)
+![](DataStructure3.assets/1676638275199.png)
 
-![1676700035000](DataStructure3.assets/1676700035000.png)
+![](DataStructure3.assets/1676700035000.png)
 
-![1676702689480](DataStructure3.assets/1676702689480.png)
+![](DataStructure3.assets/1676702689480.png)
 
 - **算法5.7 以结点p为根的子树各个序线索化**
 
@@ -794,7 +794,7 @@
 
 - **中序线索二叉树找中序后继**
 
-  ![1677144633938](DataStructure3.assets/1677144633938.png)
+  ![](DataStructure3.assets/1677144633938.png)
 
   ```c
   //找到以P为根的子树中, 第一个被中序遍历的结点
@@ -819,7 +819,7 @@
 
 - 中序线索二叉树找中序前趋
 
-  ![1677145672412](DataStructure3.assets/1677145672412.png)
+  ![](DataStructure3.assets/1677145672412.png)
 
   ```c
   //找到以P为根的子树中, 最后一个被中序遍历的结点
@@ -844,7 +844,7 @@
 
 - 先序线索二叉树找先序后继
 
-  ![1677146013325](DataStructure3.assets/1677146013325.png)
+  ![](DataStructure3.assets/1677146013325.png)
 
   ```c
   //找到以P为根的子树中, 第一个被先遍历的结点
@@ -871,13 +871,13 @@
 
   以下我们把二叉树的二叉链表改为三叉链表来讨论:
 
-  ![1677147055554](DataStructure3.assets/1677147055554.png)
+  ![](DataStructure3.assets/1677147055554.png)
 
   假如P是根节点, 其父结点就是NULL, 没有前趋.
 
 - 后序线索二叉树找后序前趋
 
-  ![1677147317042](DataStructure3.assets/1677147317042.png)
+  ![](DataStructure3.assets/1677147317042.png)
 
   ```c
   //找到以P为根的子树中, 最后一个被后序遍历的结点
@@ -896,11 +896,11 @@
 
 - 后续线索二叉树若是二叉链表则找不到后序后继
 
-![1677148835347](DataStructure3.assets/1677148835347.png)
+![](DataStructure3.assets/1677148835347.png)
 
 ## 5.6 树和森林
 
-![1676720246194](DataStructure3.assets/1676720246194.png)
+![](DataStructure3.assets/1676720246194.png)
 
 ### 5.6.1 树的存储结构
 
@@ -910,7 +910,7 @@
 
 这种存储结构利用了每个结点（除根以外）只有唯一的双亲的性质。在这种存储结构下， **求结点的双亲十分方便， 也很容易求树的根，但求结点的孩子时需要遍历整个结构。**
 
-![1677150994854](DataStructure3.assets/1677150994854.png)
+![](DataStructure3.assets/1677150994854.png)
 
 ```c
 #define MAXSIZE 100  //最大结点数
@@ -930,7 +930,7 @@ typedef struct{
 
 孩子表示法是将每个结点的孩子结点都用单链表链接起来形成一个线性结构, 此时n个结点就有n个孩子链表.叶子结点的孩子链表为空表. n个头指针又组成一个线性表, 用顺序表(含n个元素的结构数组)存储.
 
-![1677153109474](DataStructure3.assets/1677153109474.png)
+![](DataStructure3.assets/1677153109474.png)
 
 ```c
 struct CTNode{
@@ -959,7 +959,7 @@ typedef struct CSNode{
 }CSNode, *CSTree;
 ```
 
-![1677155353643](DataStructure3.assets/1677155353643.png)
+![](DataStructure3.assets/1677155353643.png)
 
 ### 树与二叉树的转换
 
@@ -971,15 +971,15 @@ typedef struct CSNode{
 
 树-->二叉树
 
-![1677158360288](DataStructure3.assets/1677158360288.png)
+![](DataStructure3.assets/1677158360288.png)
 
-![1677158465371](DataStructure3.assets/1677158465371.png)
+![](DataStructure3.assets/1677158465371.png)
 
 二叉树-->树
 
-![1677158489935](DataStructure3.assets/1677158489935.png)
+![](DataStructure3.assets/1677158489935.png)
 
-![1677158665650](DataStructure3.assets/1677158665650.png)
+![](DataStructure3.assets/1677158665650.png)
 
 ### 5.6.2 森林与二叉树的转换
 
@@ -993,9 +993,9 @@ typedef struct CSNode{
 
   > 树变二叉 根相连
 
-![1677224703820](DataStructure3.assets/1677224703820.png)
+![](DataStructure3.assets/1677224703820.png)
 
-![1677225220835](DataStructure3.assets/1677225220835.png)
+![](DataStructure3.assets/1677225220835.png)
 
 - 二叉树变回森林
 
@@ -1005,7 +1005,7 @@ typedef struct CSNode{
 
   > 去掉全部右孩线, 孤立二叉再还原.
 
-![1677225918596](DataStructure3.assets/1677225918596.png)
+![](DataStructure3.assets/1677225918596.png)
 
 ### 5.6.3 树和森林的遍历
 
@@ -1023,7 +1023,7 @@ typedef struct CSNode{
 
     若树不空, 则自上而下 自左到右访问树中每个结点.
 
-  ![1677238864767](DataStructure3.assets/1677238864767.png)
+  ![](DataStructure3.assets/1677238864767.png)
 
 - 森林的遍历
 
@@ -1042,7 +1042,7 @@ typedef struct CSNode{
     访问第一棵树的根结点；
     中序遍历除去第一棵树之后剩余的树构成的森林。
 
-![1677308570773](DataStructure3.assets/1677308570773.png)
+![](DataStructure3.assets/1677308570773.png)
 
 由森林与二叉树之间转换的规则可知，当森林转换成二叉树时，其第一棵树的子树森林转换成左子树，剩余树的森林转换成右子树，则上述森林的先序和中序遍历即为其对应的二叉树的先序和中序遍历。
 
@@ -1054,9 +1054,9 @@ typedef struct CSNode{
 
 如果按照顺序来写判断, 那可以要判很多次. 相反, 按照频率来排判断的前后顺序, 可以减少非常多的比较次数.而节省时钟周期数, 达到更快的效果.
 
-![1677320055052](DataStructure3.assets/1677320055052.png)
+![](DataStructure3.assets/1677320055052.png)
 
-![1677320090667](DataStructure3.assets/1677320090667.png)
+![](DataStructure3.assets/1677320090667.png)
 
 ### 5.7.1 哈夫曼树的基本概念
 
@@ -1064,21 +1064,21 @@ typedef struct CSNode{
 
 (1 )`路径`：从树中一个结点到另一个结点之间的`分支`构成这两个结点之间的路径。
 (2) `路径长度`：路径上的`分支数目`称作路径长度。
-![1677325184008](DataStructure3.assets/1677325184008.png)
+![](DataStructure3.assets/1677325184008.png)
 
 (3) `树的路径长度`：从树根到每一结点的路径长度之和。记作TL.
-![1677325243127](DataStructure3.assets/1677325243127.png)
+![](DataStructure3.assets/1677325243127.png)
 
 (4) `权`(weight): 赋予某个实体的一个量, 是对实体的某个或某些`属性`的数值化描述. 在数据结构中, 实体有结点(元素)和边(关系)两大类,  所以对应有结点权和边权. 结点权或边权具体代表什么意义, 由具体情况决定. 如果在一棵树中的结点上带有权值, 则对应的就有带权树等概念.
 (5) `结点的带权路径长度`：从`该结点到树根之间`的`路径长度`与结点上`权`的`乘积`.
 (6) `树的带权路径长度`：树中所有叶子结点的带权路径长度之和.
-![1677327102337](DataStructure3.assets/1677327102337.png)
-![1677327272562](DataStructure3.assets/1677327272562.png)
+![](DataStructure3.assets/1677327102337.png)
+![](DataStructure3.assets/1677327272562.png)
 (7) `哈夫曼树`: 假设有m个权值, 可以构造一棵含n个叶子结点的`二叉树`, 每个叶子结点的权为Wi, 则其中带权路径长度`WPL最小的二叉树`称做`最优二叉树`或`哈夫曼树`.
 
 > 带权路径长度最短 是在 度相同的树中比较而得到的结果. 因此有最优二叉树, 三叉树等.
 
-![1677327665169](DataStructure3.assets/1677327665169.png)
+![](DataStructure3.assets/1677327665169.png)
 
 > 满二叉树不一定是哈夫曼树。具有相同带权结点的哈夫曼树并不唯一。
 > 权值越大的结点离根结点越近。根据这个特点，哈夫曼最早给出了一个构造哈夫曼树的方法，称哈夫曼算法。
@@ -1090,17 +1090,17 @@ typedef struct CSNode{
    哈夫曼树中权值越大的叶子离根越近. 这也是贪心算法的思想.
 
    (1) 根据给定的n个权值{W1, W2,…，Wn}, 构造n棵只有`根结点`的二叉树，这n棵二叉树构成一个森林F={T1,T2,..,Tn}, 其中Ti只有一个带权为Wi的根结点.
-   ![1677330272908](DataStructure3.assets/1677330272908.png)**构造森林全是根**
+   ![](DataStructure3.assets/1677330272908.png)**构造森林全是根**
 
    (2) 在森林F中选取两棵根结点的权值最小的树作为左右子树构造一棵新的二叉树, 且置新的二叉树的根结点的权值为其左, 右子树上根结点的权值之和.
-   ![1677330301573](DataStructure3.assets/1677330301573.png)**选用两小造新树**
+   ![](DataStructure3.assets/1677330301573.png)**选用两小造新树**
 
    (3) 在森林F中删除这两棵树, 同时将新得到的二叉树加入F中.
 
    > 删除两小添新人
 
    (4) 重复(2)和(3), 直到F只含一棵树为止. 这棵树便是哈夫曼树.
-   ![1677330527965](DataStructure3.assets/1677330527965.png)**重复2 3剩单根**
+   ![](DataStructure3.assets/1677330527965.png)**重复2 3剩单根**
 
 > 在构造哈夫曼树时, 首先选择权小的, 这样保证权大的离根较近, 这样一来, 在计算树的带权路径长度时, 自然会得到最小带权路径长度, 这种生成算法是一种典型的贪心法.
 >
@@ -1109,12 +1109,12 @@ typedef struct CSNode{
 > 包含n棵树的森林要经过`n-1`次合并才能形成哈夫曼树, 产生`n-1`个新节点. 产生的`n-1`个新节点都有2个孩子.
 > 那原来那n个结点都是叶子结点, 度为0.
 
-![1677331575173](DataStructure3.assets/1677331575173.png)
+![](DataStructure3.assets/1677331575173.png)
 
 2. **哈夫曼算法的实现** 
 
 哈夫曼树是一种二叉树, 当然可以采用前面介绍过的通用存储方法, 而由于哈夫曼树中没有度为1的结点, 则一棵有n个叶子结点的哈夫曼树共有2n-1个结点, 可以存储在一个大小为2n-1的一维数组中. 树中每个结点还要包含其双亲信息和孩子结点的信息, 由此, 每个结点的存储结构设计如图.
-![1677334109267](DataStructure3.assets/1677334109267.png)
+![](DataStructure3.assets/1677334109267.png)
 
 ```c
 //- - - - -哈夫曼树的存储表示－ － － － － －
@@ -1158,7 +1158,7 @@ typedef struct{
   }
   ```
 
-![1677418944138](DataStructure3.assets/1677418944138.png)
+![](DataStructure3.assets/1677418944138.png)
 
 ### 5.7.3 哈夫曼编码
 
@@ -1169,18 +1169,18 @@ typedef struct{
    基本思想是: 为出现次数较多的字符编以较短的编码. 为确保对数据文件进行有效的压缩和对压缩文件进行正确的解码, 可以利用哈夫曼树来设计二进制编码.
 
    定长编码:
-   ![1677405427492](DataStructure3.assets/1677405427492.png)
+   ![](DataStructure3.assets/1677405427492.png)
 
    不定长编码:
-   ![1677405532775](DataStructure3.assets/1677405532775.png)
+   ![](DataStructure3.assets/1677405532775.png)
 
    **所以关键在于, 要设计长度不等的编码, 则必须使任一字符的编码都不是另一个字符的编码的前缀.** 这种编码就称为`前缀编码`.
 
    `哈夫曼编码`: 对一棵具有n个叶子的哈夫曼树, 若对树中的每个左分支赋予0, 右分支赋予1. 则从根到每个叶子的路径上, 各分支的赋值分别构成一个二进制串, 该二进制串就称为哈夫曼编码。
-   ![1677405715359](DataStructure3.assets/1677405715359.png)
+   ![](DataStructure3.assets/1677405715359.png)
 
    看个例子:
-   ![1677406050940](DataStructure3.assets/1677406050940.png) 
+   ![](DataStructure3.assets/1677406050940.png) 
 
    - **哈夫曼编码的两个特性**:
 
@@ -1195,9 +1195,9 @@ typedef struct{
    - **因为哈夫曼树不是唯一的, 所以哈夫曼编码也不是唯一的. 但都是最优前缀编码.**
 
    再看个例子:
-   ![1677406518200](DataStructure3.assets/1677406518200.png)
+   ![](DataStructure3.assets/1677406518200.png)
 
-   ![1677406605116](DataStructure3.assets/1677406605116.png)
+   ![](DataStructure3.assets/1677406605116.png)
 
    > 写代码的时候可以乘以100, 把小数变成整数处理.
 
@@ -1207,7 +1207,7 @@ typedef struct{
 
    由于每个哈夫曼编码是变长编码，因此使用一个指针数组来存放每个字符编码串的首地址。
 
-   ![1677417747627](DataStructure3.assets/1677417747627.png)
+   ![](DataStructure3.assets/1677417747627.png)
 
    由于每个哈夫曼编码是变长编码，因此使用一个指针数组来存放每个字符编码串的首地址。
 
@@ -1277,7 +1277,7 @@ typedef struct{
      }
      ```
 
-     ![1677424026354](DataStructure3.assets/1677424026354.png)
+     ![](DataStructure3.assets/1677424026354.png)
 
 3. **文件的编码和译码**
 
@@ -1289,7 +1289,7 @@ typedef struct{
    三. 进行哈夫曼编码 --- HC[i]
    四. 查找HC[i], 得到各字符的哈夫曼编码
 
-   ![1677474230690](DataStructure3.assets/1677474230690.png)
+   ![](DataStructure3.assets/1677474230690.png)
 
    (2) 译码
    对编码后的文件进行译码的过程必须借助哈夫曼树。具体过程是：依次读入文件的二进制码，从哈夫曼树的根结点(即HT[m])出发, 若当前读入0, 则走向左孩子, 否则走向右孩子.一旦到达某一叶子HT[i]时便译出相应的字符编码HC[i].然后重新从根出发继续译码, 直至文件结束.
@@ -1299,6 +1299,6 @@ typedef struct{
    四. 一旦到达某叶子时, 即是译出的字符
    五. 然后再从根出发继续译码. 直到结束
 
-   ![1677474957182](DataStructure3.assets/1677474957182.png)
+   ![](DataStructure3.assets/1677474957182.png)
 
    > 代码就不在这里写了.

@@ -20,7 +20,7 @@
 
 因此, 对栈来说, 表尾端有其特殊含义, 称为栈顶(top), 相应地, 表头端称为栈底(bottom)。不含元素的空表称为空栈。
 
-![1675928474105](DataStructure1.assets/1675928474105.png)
+![](DataStructure1.assets/1675928474105.png)
 
 插入元素到栈顶的操作, 称为压栈或入栈. PUSH
 
@@ -38,7 +38,7 @@
 
   实现方式: 编写入栈出栈函数.
 
-![1675929164909](DataStructure1.assets/1675929164909.png)
+![](DataStructure1.assets/1675929164909.png)
 
 ### 3.1.2 队列的定义和特点
 
@@ -48,7 +48,7 @@
 
 在队列中，允许插入的一端称为队尾(rear), 允许删除的一端则称为队头(front)。
 
-![1675931979767](DataStructure1.assets/1675931979767.png)
+![](DataStructure1.assets/1675931979767.png)
 
 队列在程序设计中也经常出现。一个最典型的例子就是操作系统中的作业排队。在允许多道程序运行的计算机系统中，同时有几个作业运行。如果运行的结果都需要通过通道输出，那就要按请求输入的先后次序排队。每当通道传输完毕可以接受新的输出任务时， 队头的作业先从队列中退出做输出操作。凡是申请输出的作业都从队尾进入队列。
 
@@ -68,23 +68,23 @@
 
 - **案例3.1: 数制的转换**
 
-![1675932645517](DataStructure1.assets/1675932645517.png)
+![](DataStructure1.assets/1675932645517.png)
 
 ​	模运算, 得到余数一次入栈, 然后出栈就行了.
 
 - **案例3.2: 括号匹配的检验**
 
-![1675933582472](DataStructure1.assets/1675933582472.png)
+![](DataStructure1.assets/1675933582472.png)
 
 ​	左括号入栈, 遇到右括号就跟栈顶的左括号匹配. 第一个入栈的左括号肯定是最深的, 需要最后去匹配的.
 
 ​	比如写代码的时候, 函数体括号{}肯定是在最深的地方. 里面还有各种代码块的括号.
 
-![1675937150165](DataStructure1.assets/1675937150165.png)
+![](DataStructure1.assets/1675937150165.png)
 
 ​	算法:
 
-​	![1676895543591](DataStructure1.assets/1676895543591.png)
+​	![](DataStructure1.assets/1676895543591.png)
 
 ```c
 int bracketCheck(char str[], int len)
@@ -125,35 +125,35 @@ int bracketCheck(char str[], int len)
 
   在表达式计算中先出现的运算符不一定先运算，具体运算顺序是需要通过运算符优先关系的比较，确定合适的运算时机，而运算时机的确定是可以借助栈来完成的。将扫描到的不能进行运算的运算数和运算符先分别压入运算数栈和运算符栈中， 在条件满足时再分别从栈中弹出进行运算。
 
-  ![1675939712153](DataStructure1.assets/1675939712153.png)
+  ![](DataStructure1.assets/1675939712153.png)
 
-  ![1676896633892](DataStructure1.assets/1676896633892.png)
+  ![](DataStructure1.assets/1676896633892.png)
 
-  ![1676897434171](DataStructure1.assets/1676897434171.png)
+  ![](DataStructure1.assets/1676897434171.png)
 
   **有时候运算的顺序并不唯一, 且不影响结果**. 但计算机来算, 只有一种.
 
-  ![1676897669275](DataStructure1.assets/1676897669275.png)
+  ![](DataStructure1.assets/1676897669275.png)
 
   **左优先原则**:
 
-  ![1676897716323](DataStructure1.assets/1676897716323.png)
+  ![](DataStructure1.assets/1676897716323.png)
 
-  比如:![1676901068243](DataStructure1.assets/1676901068243.png)
+  比如:![](DataStructure1.assets/1676901068243.png)
 
   正常是先算乘法, 再算除法. 但实际上, 先算A+B并不会影响最后的结果, 但是可以让计算机更好的操作.
 
-  ![1676901880473](DataStructure1.assets/1676901880473.png)
+  ![](DataStructure1.assets/1676901880473.png)
 
   
 
   **中缀转前缀**, 要用**右优先**的原则:
 
-  ![1676901757616](DataStructure1.assets/1676901757616.png)
+  ![](DataStructure1.assets/1676901757616.png)
 
   计算过程:
 
-  ![1676901923533](DataStructure1.assets/1676901923533.png)
+  ![](DataStructure1.assets/1676901923533.png)
 
   
 
@@ -161,23 +161,23 @@ int bracketCheck(char str[], int len)
 
   **机算 中缀转后缀:**
 
-  ![1676955993243](DataStructure1.assets/1676955993243.png)
+  ![](DataStructure1.assets/1676955993243.png)
 
   遇到括号的处理:
 
-  ![1676956898732](DataStructure1.assets/1676956898732.png)
+  ![](DataStructure1.assets/1676956898732.png)
 
   **中缀表达式的计算(栈来实现):**
 
   实质上就是上面内容, **机算中缀表达式转后缀表达式**, 跟**机算后缀表达式**, 两部分的合体.
 
-  ![1676957326837](DataStructure1.assets/1676957326837.png)
+  ![](DataStructure1.assets/1676957326837.png)
 
-  ![1676957557487](DataStructure1.assets/1676957557487.png)
+  ![](DataStructure1.assets/1676957557487.png)
 
 - 案例3.4: 舞伴问题
 
-  ![1675940021233](DataStructure1.assets/1675940021233.png)
+  ![](DataStructure1.assets/1675940021233.png)
 
 ## 3.3 栈的表示和操作的实现
 
@@ -185,7 +185,7 @@ int bracketCheck(char str[], int len)
 
 栈的基本操作除了入栈和出栈外， 还有栈的初始化、栈空的判定， 以及取栈顶元素等. 先看定义:
 
-![1675940097808](DataStructure1.assets/1675940097808.png)
+![](DataStructure1.assets/1675940097808.png)
 
 >  n为0, 就是空栈.
 
@@ -225,9 +225,9 @@ int bracketCheck(char str[], int len)
 
 当top 和base 的值相等时, 表示空栈. top-base  == stacksize的时候 表示栈满
 
-![1675943010004](DataStructure1.assets/1675943010004.png)
+![](DataStructure1.assets/1675943010004.png)
 
-![1675943424785](DataStructure1.assets/1675943424785.png)
+![](DataStructure1.assets/1675943424785.png)
 
 使用数组作为顺序栈存储的特点:
 
@@ -260,7 +260,7 @@ typedef struct { //静态分配的顺序栈
 
 base为栈底指针, 初始化完成后, 栈底指针base始终指向栈底的位置, 若base 的值为NULL, 则表明栈结构不存在. top为栈顶指针, 其初值指向栈底. 每当插入新的栈顶元素时, 指针top增1; 删除栈顶元素时, 指针top减1. 因此, 栈空时, top 和base 的值相等, 都指向栈底; 栈非空时, top 始终指向栈顶元素的上一个位置.
 
-![1675943959038](DataStructure1.assets/1675943959038.png)
+![](DataStructure1.assets/1675943959038.png)
 
 - 算法3.1 顺序栈的初始化
 
@@ -377,7 +377,7 @@ typedef struct StackNode {
 } StackNode, * LinkStack;
 ```
 
-![1675950760005](DataStructure1.assets/1675950760005.png)
+![](DataStructure1.assets/1675950760005.png)
 
 由于栈的主要操作是在栈顶插入和删除， 显然以链表的头部作为栈顶是最方便的， 而且没必要像单链表那样为了操作方便附加一个头结点。
 
@@ -469,7 +469,7 @@ typedef struct StackNode {
 
   适用于: 可以把原始问题转为属性相同, 但规模更小的问题.
 
-  ![1676018460846](DataStructure1.assets/1676018460846.png)
+  ![](DataStructure1.assets/1676018460846.png)
 
 - 常用递归的情况:
 
@@ -477,7 +477,7 @@ typedef struct StackNode {
 
     比如阶乘函数, 2阶斐波那契数列.
 
-    ![1676098821836](DataStructure1.assets/1676098821836.png)
+    ![](DataStructure1.assets/1676098821836.png)
 
     > 上图所示为主程序调用函数Fact (4)的执行过程。在函数过程体中，else 语句以参数3 、2 、1 、0 执行递归调用。最后一次递归调用的函数因参数n为0执行if 语句, 递归终止, 逐步返回, 返回时依次计算`1*1 、2*1 、3*2 、4*6,` 最后将计算结果24 返回给主程序。
 
@@ -509,7 +509,7 @@ typedef struct StackNode {
 
   例如， 在下图中，计算4!时先计算3!' 然后再进一步分解进行求解，这种分解－求解的策略叫做“分治法”。
 
-  ![1676099051252](DataStructure1.assets/1676099051252.png)
+  ![](DataStructure1.assets/1676099051252.png)
 
   "分治法"求解递归问题算法的一般形式为：
 
@@ -521,9 +521,9 @@ typedef struct StackNode {
   }
   ```
 
-  ![1676099452233](DataStructure1.assets/1676099452233.png)
+  ![](DataStructure1.assets/1676099452233.png)
 
-  ![1676099544316](DataStructure1.assets/1676099544316.png)
+  ![](DataStructure1.assets/1676099544316.png)
 
 - 递归的优缺点:
 
@@ -534,13 +534,13 @@ typedef struct StackNode {
 
   - 一是尾递归, 单向递归转化为循环结构
 
-    ![1676100206933](DataStructure1.assets/1676100206933.png)
+    ![](DataStructure1.assets/1676100206933.png)
 
     > 虽有一处以上的递归调用语句, 但各次递归调用语句的参数只和主调函数油管, 相互之间参数无关, 并且这些递归调用语句处于算法的最后.  这种就是单向递归.
 
-    ![1676100257462](DataStructure1.assets/1676100257462.png)
+    ![](DataStructure1.assets/1676100257462.png)
 
-    ![1676100278808](DataStructure1.assets/1676100278808.png)
+    ![](DataStructure1.assets/1676100278808.png)
 
     
 
@@ -548,7 +548,7 @@ typedef struct StackNode {
 
      利用栈将递归转换为非递归的方法:
 
-     ![1676100334634](DataStructure1.assets/1676100334634.png)
+     ![](DataStructure1.assets/1676100334634.png)
 
 - 递归过程与递归工作栈
 
@@ -599,11 +599,11 @@ typedef struct StackNode {
 
 <div align=left><img src="DataStructure1.assets/1676116218883.png" height=300></div>
 
-![1676116275366](DataStructure1.assets/1676116275366.png)
+![](DataStructure1.assets/1676116275366.png)
 
 ### 3.5.1 队列的抽象类型定义
 
-![1676118805168](DataStructure1.assets/1676118805168.png)
+![](DataStructure1.assets/1676118805168.png)
 
 怎么存放, 涉及物理存储方式, 大概就两种顺序, 和链式.
 
@@ -634,17 +634,17 @@ typedef struct StackNode {
 
   为了在C 语言中描述方便起见，在此约定：初始化创建空队列时，令front = rear = 0 , 每当插入新的队列尾元素时，尾指针rear增1; 每当删除队列头元素时， 头指针front增1。因此，在非空队列中，头指针始终指向队列头元素，而尾指针始终指向队列尾元素的下一个位置，如下图所示。
 
-  ![1676120883588](DataStructure1.assets/1676120883588.png)
+  ![](DataStructure1.assets/1676120883588.png)
 
   > 入队, 头不动尾动, 出队, 尾不动头动.
 
 - 真溢出与假溢出
 
-  ![1676121192079](DataStructure1.assets/1676121192079.png)
+  ![](DataStructure1.assets/1676121192079.png)
 
   - 解决方法:
 
-  ![1676121398952](DataStructure1.assets/1676121398952.png)
+  ![](DataStructure1.assets/1676121398952.png)
 
   - 循环队列:
 
@@ -660,7 +660,7 @@ typedef struct StackNode {
 
     x = Q.base[Q.front];   Q.front = (Q.front+1)%MAXQSIZE;
 
-  ![1676122097547](DataStructure1.assets/1676122097547.png)
+  ![](DataStructure1.assets/1676122097547.png)
 
 - 循环队列判空与判满
 
@@ -678,7 +678,7 @@ typedef struct StackNode {
 
   > 主要用第一种, 少用一个空间. 让front跟rear别指到一起就完了
 
-![1676123556954](DataStructure1.assets/1676123556954.png)
+![](DataStructure1.assets/1676123556954.png)
 
 - 算法3.11 循环队列的初始化
 
@@ -751,7 +751,7 @@ typedef struct StackNode {
 
 链队是指采用链式存储结构实现的队列。通常链队用单链表来表示,  一个链队显然需要两个分别指示队头和队尾的指针（分别称为头指针和尾指针）才能唯一确定。这里和线性表的单链表一样， 为了操作方便起见，给链队添加一个头结点， 并令头指针始终指向头结点。 不定长的队列就可以用链式.
 
-![1676127194538](DataStructure1.assets/1676127194538.png)
+![](DataStructure1.assets/1676127194538.png)
 
 ```c
 //－ － － － － 队列的链式存储结构－ － － － －
@@ -772,7 +772,7 @@ typedef struct
 
 入队就是尾插法. 出队就是删除首元节点.
 
-![1676175463320](DataStructure1.assets/1676175463320.png)
+![](DataStructure1.assets/1676175463320.png)
 
 - 算法3.16 链队的初始化
 
@@ -898,6 +898,6 @@ typedef struct
 
 ### 3.5.4 双端队列
 
-![1676893804801](DataStructure1.assets/1676893804801.png)
+![](DataStructure1.assets/1676893804801.png)
 
 ## 数据结构不要学死了, 灵活掌握思想.
