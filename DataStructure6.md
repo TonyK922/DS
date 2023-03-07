@@ -51,8 +51,8 @@ typedef struct {
 }RedType;   //记录类型
 
 typedef struct{
-	RedType r[MAXSIZE+1]; //r[O]闲置或用做哨兵单元
-	int length;  //顺序表长度
+	RedType r[MAXSIZE+1]; //r[0]闲置或用做哨兵单元
+	int length;  //顺序表的实际长度,除去r[0]
 }SqList;
 
 ```
@@ -83,15 +83,13 @@ void InsertSort(SqList *L)
 {
 	int i,j;
 
-	for(i = 2; i<=L->length; ++i)
+	for(i = 2; i<=L->length-1; ++i) //r[0]不用的所以length-1
 	{
 		if(L->r[i].key < L->r[i-1].key)  //＂<＂需将r[i]插人有序子表
 		{
-			L->r[0] = L->[i];  //设置哨兵
-			for(j = i-1; L->r[0].key < L->r[j].key; --j) 
-			{
+			L->r[0] = L->r[i];  //设置哨兵
+			for(j = i-1; L->r[0].key < L->r[j].key; --j) //后移
 				L->r[j+1] = L->r[j]; //大的依次后移
-			}
 			L->r[j+1] = L->r[0]; //上面循环最后一次执行了--j 这里j+1是对的位置
 		}
 	}
@@ -100,6 +98,7 @@ void InsertSort(SqList *L)
 从时间来看, 排序的基本操作为: 比较两个关键字的大小和移动记录.
 直接插入排序的时间复杂度为O(n^2).
 只需要一个记录的辅助空间`r[0]`所以空间复杂度为O(1).
+
 ［算法特点］
 (1) 稳定排序.
 (2) 算法简便, 且容易实现.
@@ -109,6 +108,7 @@ void InsertSort(SqList *L)
 ### 8.2.2 折半插人排序
 
 直接插入排序采用顺序查找法查找当前记录在已排好序的序列中的插入位置, 从7.2节的讨论中可知, 这个“查找" 操作可利用“折半查找”来实现, 由此进行的插入排序称之为折半插入排序(Binary Insertion Sort).
+
 **算法8.2 折半插入排序**
 ![](assets/Pasted%20image%2020230306155857.png)
 ```c
@@ -116,7 +116,7 @@ void BInsertSort(SqList *L)
 {
 	int i = 0, j = 0;
 
-	for(i = 2; i<=L->length; ++i) //依次插入2到n个元素
+	for(i = 2; i<=L->length-1; ++i) //依次插入2到n个元素
 	{
 		L->r[0] = L->r[i]; //需要被插入的元素存到哨兵
 		int low = 1, high = i-1; //二分法的两个位置指针.
@@ -124,13 +124,13 @@ void BInsertSort(SqList *L)
 		while(low <= high)   //low > high的时候查找就结束了.
 		{
 			int mid = (low + high) >> 1; //除以2
-			if (L->r[0].key < L->r[mid].key)
+			if (L->r[0].key < L->r[mid].key) //二分
 				high = mid - 1;
 			else
 				low = mid + 1;
 		} //找到了high+1为插入位置
 		for(j = i-1;j>=high + 1; --j) //high+1往后的依次移动
-			L->[j+1] = L->r[j];
+			L->r[j+1] = L->r[j]; 
 		L->r[high+1] = L->r[0]; //插入
 	}
 }
@@ -170,23 +170,24 @@ void BInsertSort(SqList *L)
 - 一次移动, 移动位置较大, 跳跃式地接近排序后的最终位置.
 - 最后一次只需少量移动
 - 增量序列必须是递减的, 最后一个必为1
-- 增量序列应该是互质的.
+- ***增量序列应该是互质的.***
 ```c
+int dlta[3] = {5,3,1};
 void ShellInsert(SqList *L, int dk)
 {
+	int i, j;
 	//对顺序表L做`一趟`增量是dk的希尔插入排序 dk是步长因子
-	for(int i = dk+1; i<=L->length; ++i)
+	for(i = dk+1; i<=L->length; ++i)//0位置做哨兵
 	{
 		if(L->r[i].key<L->r[i-dk].key) //需将L->r[i]插入有序增扯子表
 		{
-			L->r[0] = L->r[i]; //暂存在L->r[O]
-			for(int j=i-dk; j>0 && (L->r[0].key < L->r[j].key); j-=dk) 
+			L->r[0] = L->r[i]; //暂存在哨兵
+			for(j=i-dk; j>0 && (L->r[0].key < L->r[j].key); j-=dk) 
 				L->r[j+dk] = L->r[j]; //分组的直接插入排序
-			L->[j+dk] = L->r[0]; //位置移完把r[i]插到正确位置
+			L->[j+dk] = L->r[0]; /*循环最后一步执行了j=-dk, 所以j+dk才是正确位置    
+			                     位置移完把r[i]插到正确位置*/
 		}
 	}
-	
-	
 }
 //dk值依次存于dlta[t]中
 void ShellSort(SqList *L, int dlta[], int t)
@@ -194,11 +195,34 @@ void ShellSort(SqList *L, int dlta[], int t)
 	for(int k = 0; k < t; ++k)
 		ShellInsert(L, dlta[k]); //一趟增址为dt[t]的希尔插入排序
 }
+
+
+//写法二: 推荐这种写法
+void ShellSort2(SqList *L)
+{
+    int i,j,dk;
+    //对顺序表L做`一趟`增量是dk的希尔插入排序 dk是步长因子
+    for(dk = L->length >> 1; dk >= 1; dk >>= 1) //另一种求增量的方法
+    {
+        for(i = dk+1; i<=L->length; ++i)//0位置做哨兵
+        {
+            if(L->r[i].key<L->r[i-dk].key) //需将L->r[i]插入有序增扯子表
+            {
+                L->r[0] = L->r[i]; //暂存在哨兵
+                for(j=i-dk; j>0 && (L->r[0].key < L->r[j].key); j-=dk)
+                    L->r[j+dk] = L->r[j]; //分组的直接插入排序
+                L->r[j+dk] = L->r[0]; /*循环最后一步执行了j=-dk, 所以j+dk才是正确位置 
+                                    位置移完把r[i]插到正确位置*/
+            }
+        }
+    }
+}
 ```
+时间复杂度:
 ![](assets/Pasted%20image%2020230306170205.png)
 算法特点
 (1) 记录跳跃式地移动导致排序方法是不稳定的.
-(2) 只能用于顺序结构, `不能用于链式结构`.
+(2) 只能用于顺序结构, ***`不能用于链式结构`***.
 (3) 增量序列可以有各种取法, 但应该使增量序列中的值没有除1之外的公因子, 并且最后一个增量值必须等于1.
 (4) 记录总的比较次数和移动次数都比直接插入排序要少, n越大时, 效果越明显. 所以适合初始记录无序, n较大时的情况.
 
@@ -210,13 +234,13 @@ void ShellSort(SqList *L, int dlta[], int t)
 ### 8.3.1 冒泡排序
 
 冒泡排序(Bubble Sort)是一种最简单的交换排序方法, 它通过两两比较相邻记录的关键字, 如果发生逆序, 则进行交换, 从而使关键字小的记录如气泡一般逐渐往上"漂浮"(左移)或者使关键字大的记录如石块一样逐渐向下"坠落"(右移).
-
+![](assets/Pasted%20image%2020230307154734.png)
 ```c
 void BubbleSort(SqList *L)
 {
 	//对顺序表L做冒泡排序
 	int m = L->length - 1, flag = 1; //flag用来标记某一趟排序是否发生交换
-	while ((m > 0) && (flag==1))
+	while ((m > 0) && (1 == flag))
 	{
 		flag = 0; //flag置为0,如果本趟排序没有发生交换，则不会执行下一趟排序
 		for (j=1; j<=m; j ++)
@@ -224,9 +248,9 @@ void BubbleSort(SqList *L)
 			if(L->r[j].key > L->r[j+1].key)
 			{
 				flag = 1; //flag置为1, 表示本趟排序发生了交换
-				RedType x = L->r[j];
+				L->r[0] = L->r[j]; //r[0]不用
 				L->r[j] = L->r[j+1];
-				L->r[j+1] = x;
+				L->r[j+1] = L->r[0];
 			}
 			m--; 
 		}
@@ -235,20 +259,20 @@ void BubbleSort(SqList *L)
 //写法二:
 void bubble_Sort(SqList *L)
 {
-	int i = 1, j = 1, flag = 1;
-	int n = L->length - 1;
-	for(; (i <= n - 1) && (1 == flag) ; i++)
+	int flag = 1, n = L->length;
+
+	for(int i = 1; (i <= n-1) && (1 == flag) ; i++)
 	{
 		//if(!flag) break; //上一趟已经没有进行交换了 结束		
 		flag = 0; //flag置为0,如果本趟排序没有发生交换，则不会执行下一趟排序
-		for(;j <= i; j++)//for(;j <= n - i; j++)
+		for(int j = 1; j <= n-i; j++)//for(;j <= n - i; j++)
 		{
 			if(L->r[j].key > L->r[j+1].key)
 			{
 				flag = 1; //flag置为1, 表示本趟排序发生了交换
-				RedType x = L->r[j];
+				L->r[0] = L->r[j];//r[0]没有被使用, 是哨兵
 				L->r[j] = L->r[j+1];
-				L->r[j+1] = x;
+				L->r[j+1] = L->r[0];//x;
 			}
 		}
 	}
@@ -280,9 +304,14 @@ void bubble_Sort(SqList *L)
 已知待排序记录的关键字序列为{49, 38, 65, 97, 76, 13, 27, 49}, 请给出用快速排序法进行排序的过程.
 ![](assets/Pasted%20image%2020230306220311.png)
 把1号位置作为中心, 移到0号, 1号空下来了, 开始从high位置比, 大于中心关键字, high--, 再比, 找到小于中心关键字的, 移到1号位置. 反复直到low > high
+![](assets/Pasted%20image%2020230307165841.png)
+>(1) 每一趟的子表的形成都是采用从两头向中间交替式逼近法
+>(2) 由于每趟中对各子表的操作都相似, 可采用递归算法.
 ```c
 void QSort(SqList *L, int low, int high);
 int Partition(SqList *L, int low, int high);
+void QuickSort(SqList *L);
+
 void QuickSort(SqList *L)
 { //对顺序表L做快速排序
 	QSort(L, 1, L->length); //调用QSort
@@ -295,8 +324,8 @@ void QSort(SqList *L, int low, int high)
 	{
 		//将L.r[low.. high] 一分为二，pivotloc是枢轴位置
 		int pivotloc = Partition(L, low, high); 
-		QSort(L, low, pivotloc - 1);  //对左子表递归排序
-		QSort(L, pivotloc +1 , high)  //对右子表递归排序
+		QSort(L, low, pivotloc-1);  //对左子表递归排序
+		QSort(L, pivotloc+1, high)  //对右子表递归排序
 	}
 }
 
@@ -308,7 +337,7 @@ int Partition(SqList *L, int low, int high)
 	{
 		while(low < high && L->r[high].key >= pivotkey) 
 			high--;
-			
+		//low 的值已经被移到r[0]了,low的值可以被覆盖	
 		L->r[low] = L->r[high];  //将比枢轴记录小的记录移到低端
 		while(low < high && L->r[low].key <= pivotkey)
 			low++;
@@ -319,7 +348,7 @@ int Partition(SqList *L, int low, int high)
 	return low;  //／返回枢轴位置	
 }
 ```
-平均情况下， 快速排序的时间复杂度为O(nlog2 n).
+平均情况下, 快速排序的时间复杂度为O(nlog2 n).
 快速排序是递归的, 执行时需要有一个栈来存放相应的数据. 最大递归调用次数与递归树的深度一致，所以最好情况下的空间复杂度为O(log2 n) ,最坏情况下为O(n).
 
 【算法特点】
@@ -330,3 +359,451 @@ int Partition(SqList *L, int low, int high)
 - 注意:
 ![](assets/Pasted%20image%2020230307000925.png)
 ![](assets/Pasted%20image%2020230307001134.png)
+
+## 8.4 选择排序
+
+选择排序的基本思想是：每一趟从待排序的记录中选出关键字最小的记录，按顺序放在已排序的记录序列的最后，直到全部排完为止。先介绍一种简单选择排序方法，然后给出另一种改进的选择排序方法——堆排序。
+
+### 8.4.1 简单选择排序
+
+简单选择排序(SimpleSelection Sort) 也称作直接选择排序.
+
+- 基本操作:
+(1) 首先通过n-1次的关键字比较, 从n个记录中找出关键字最小的记录, 将它与第一个记录交换.
+(2) 再通过n-2次比较, 从剩余的n-1个记录中找出关键字次小的记录, 把它与第二个交换.
+(3) 重复上述操作, 共进行n-1趟排序后, 排序结束..
+![](assets/Pasted%20image%2020230307175158.png)
+```c
+void SelectSort(SqList *L)
+{ //对顺序表L做简单选择排序
+	for(int i = 1; i < L->length; i++)
+	{
+		int minred = i;
+		for(int j = i+1; j<=L->length; j++) 
+			if(L->r[j].key < L->r[minred].key) 
+				minred = j;  //minred指向此趟排序中关键字最小的记录
+				
+	    if(minred != i) //意味着i就是最小的那个
+		{
+			L->r[0] = L->[i]; //r[0]是哨兵位
+			L->r[i] = L->r[minred];
+			L->r[minred] = L->r[0];
+		}
+	}
+	
+}
+```
+简单选择排序的时间复杂度也是`O(n^2)`. 有自己的哨兵, 不需要借助其他空间, 空间复杂度为O(1).
+
+【算法特点】
+(1) 就选择排序方法本身来讲，它是一种稳定的排序方法，但图8.6 所表现出来的现象是不
+稳定的，这是因为上述实现选择排序的算法采用“交换记录” 的策略所造成的，改变这个策略，
+可以写出不产生”不稳定现象” 的选择排序算法。
+(2) 可用于链式存储结构。
+(3) 移动记录次数较少，当每一记录占用的空间较多时，此方法比直接插入排序快。
+
+从上述可见, 选择排序的主要操作是进行关键字间的比较，因此改进简单选择排序应从如何减
+少“比较“ 出发考虑.显然, 在n个关键字中选出最小值, 至少要进行n-1次比较，然而，继续在剩余的n-1个关键字中选择次小值并非一定要进行n-2次比较, 若能利用前n-1次比较所得信息, 则可减少以后各趟选择排序中所用的比较次数。
+
+### 8.4.2 堆排序
+
+堆排序(Heap Sort) 是一种`树形选择排序`, 在排序过程中, 将待排序的记录`r[1..n]`看成是一棵完全二叉树的顺序存储结构, 利用完全二叉树中双亲结点和孩子结点之间的内在关系, 在当前无序的序列中选择关键字最大(或最小)的记录. 
+
+> 堆排序是为了改进树形选择排序的缺点而提出的
+
+- 堆的定义:
+![](assets/Pasted%20image%2020230307194457.png)
+
+若将和此序列对应的一维数组(即以一维数组做此序列的存储结构) 看成是一个`完全二叉树`, 则堆实质上是满足如下性质的完全二叉树: 树中所有非叶子结点的值均不大于(或不小于) 其左, 右孩子结点的值.
+
+![](assets/Pasted%20image%2020230307195047.png)
+
+- 堆排序:
+若在输出堆顶的最小值(最大值)后, 使得剩余n-1个元素的序列重又建成一个堆, 则得到n个元素的次小(大)值.... 如此重复, 便能得到一个有序序列, 这个过程称之为堆排序.
+
+- 堆的调整
+
+小根堆:
+1. 输出堆顶元素之后, 以堆中最后一个元素替代之.
+2. 然后将根节点的值与 左, 右子树的根节点的值进行比较, 并与其中小者进行交换.
+3. 重复上述操作, 直至叶子结点, 将得到新的堆. 称这个从堆顶至叶子的调整过程为"筛选".
+
+> 最后一个元素, 要么是最大的 要么是最小的. 所以肯定要调整. 把这个原来最后一个元素, 再调整到叶子就行了.
+
+算法8.7 筛选法调整堆
+![](assets/Pasted%20image%2020230307201653.png)![](assets/Pasted%20image%2020230307201737.png)![](assets/Pasted%20image%2020230307201910.png)
+
+```c
+void HeapAdjustBig(SqList *L,int s,int m)
+{ //假设r[s+1..m]已经是堆， 将r[s.. m]调整为以r[s]为根的大根堆
+	RedType rc = L->r[s];
+	for(int j= s<<1; j<=m; j<<=1) //沿key较大的孩子结点向下筛选
+	{
+		if(j < m && L->r[j].key < L->r[j+1].key) //j为key较大的记录的下标
+			++j;  //开始往后面去调整, 保证改后子树也是堆
+		if(rc.key >= L->r[j].key) break; //rc应在位置s上 后面就不执行.
+		L->r[s] = L->r[j];
+		s = j;
+	}
+	L->r[s] = rc;
+}
+//小根堆
+void HeapAdjustLittle(SqList *L,int s,int m)
+{ //假设r[s+1..m]已经是堆， 将r[s.. m]调整为以r[s]为根的小根堆
+	RedType rc = L->r[s];
+	for(int j = s<<1; j<=m; j<<=1) //沿key较小的孩子结点向下筛选
+	{
+		if(j < m && L->r[j].key > L->r[j+1].key) //j为key较大的记录的下标
+			++j;   //j+1更小所以让j++ 同时继续往子树去调整
+		if(rc.key <= L->r[j].key) break; //r[s]不需要动
+		L->r[s] = L->r[j]; //较小的孩子赋值给根r[s]
+		s = j; // s 存r[j]
+	}
+	L->r[s] = rc; //完成r[s]与r[j]交换
+}
+```
+
+- 堆的建立
+
+要将一个无序序列调整为堆, 就必须将其所对应的完全二叉树中以每一结点为根的子树都调整为堆.
+显然的, 单结点的二叉树是堆. 那在完全二叉树中所有以叶子结点(序号`i>n/2`)为根的子树都是堆.
+这样, 只需利用筛选法, 从最后一个分支结点n/2开始, 依次将序号为n/2 , n/2-1 , … ,1的结点作为根的子树都调整为堆即可.
+
+算法8.8 建初堆
+
+由于堆实际上是个线性表, 那么我们可以用顺序存储方式 存一个堆.
+例子: 把下面这个无序的, 建成小根堆.
+![](assets/Pasted%20image%2020230307212556.png)
+(1) 从最后一个非叶子结点 n/2 = 4开始, 跟较小的孩子互换, 调整成小根堆:
+![](assets/Pasted%20image%2020230307212853.png)
+(2) n/2-1 = 3号结点为根的二叉树调整为堆:
+![](assets/Pasted%20image%2020230307213048.png)
+(3) n/2 - 2 = 2 : 这个不用调整
+(4) n/2 - 3 = 1 :
+![](assets/Pasted%20image%2020230307213525.png)
+还没有调整完成. 继续这个子树:
+![](assets/Pasted%20image%2020230307213934.png)
+至此, 无序序列, 建立小根堆结束.
+```c
+void CreatHeap(SqList *L)
+{
+	int n = L->length; //可以是length-1 如果r[0]是哨兵.
+	for(int i = n>>1; i >= 1; i--) //从n/2开始
+		HeapAdjustBig(L, i, n);
+}
+```
+
+- 堆排序算法的实现
+
+由上面可知, 若对一个无序序列建堆, 然后输出根, 重复该过程就可以由无序序列, 输出有序序列.
+实质上, 堆排序就是利用完全二叉树中父节点与孩子结点之间的内在关系来排序的.
+
+把n个记录且调整完的堆, 第一个值跟最后一个值互换, 然后最后一个值不变, 调整剩下n-1个记录重新变成堆, 然后再把第一个值跟第n-1个值互换. 然后再去调整剩下的n-2个值. n-1和n的值不动.
+如此循环. 最后就会得到一个排好序的线性表.
+大根堆最后得到一个递增序列, 小根堆会得到一个递减序列.
+![](assets/Pasted%20image%2020230308031247.png)
+![](assets/Pasted%20image%2020230308031352.png)
+```c
+//宏定义swap
+#define swap(x, y) do {\
+    typeof(x) c = (y);\
+    (y) = (x);\
+    (x) = c;}while(0)
+    
+void HeapSort(SqList *L)
+{ //对顺序表L进行堆排序
+	CreatHeap(L); //无序序列建成大根堆
+	for(int i=L->length; i>1; --i) //r[0]是哨兵
+	{
+		//将堆顶记录和当前未经排序子序列r[1..i]中最后一个记录互换
+		swap(L->r[1], L->r[i]);
+		HeapAdjustBig(L, 1, i-1); //将r[1..i-1]重新调整为大根堆
+ 	}
+}
+```
+
+堆排序在最坏的情况下, 其时间复杂度也为O(nlog2 n). 平均性能接近千最坏性能.
+以空间复杂度为O(1).
+
+【算法特点】
+(1) 是不稳定排序.
+(2) 只能用于顺序结构, 不能用于链式结构.
+(3) 初始建堆所需的比较次数较多, 因此记录数较少时不宜采用. 堆排序在最坏情况下时间复杂度为O(nlog2 n), 相对于快速排序最坏情况下的O(n^2)而言是一个优点, 当记录较多时较为高效.
+
+- 堆的删除和插入
+```c
+//插入, 插到最后
+void HeapInsert(SqList *L, RedType e)
+{
+	if(L && L->length < MAXSIZE)
+	{
+		L->r[++L->length] = e; //L->length先自增1,再把新记录添加到最后位置
+		HeapSort(L);  //再排序
+	}
+}
+void HeapDelete(SqList *L, int pos)
+{
+	if(L && pos <= L->length && pos >= 1)
+	{
+		L->r[pos] = L->r[L->length--];//先把最后位置的值覆盖pos位置,总长再自减1
+		HeapSort(L); //再排序
+	}
+}
+```
+
+## 8.5 归并排序
+
+归井排序(Merging Sort)就是将两个或两个以上的有序表(有序子序列)合并成一个有序表的过程。将两个有序表合并成一个有序表的过程称为`2-路归并`，2-路归并最为简单和常用.
+即: 将两个位置相邻的有序子序列 `r[1...m]` 和 `r[m+1...n]` 归并成一个有序序列`r[1....n]`
+
+归并排序算法的思想是：
+假设初始序列含有n个记录, 则可看成是n个有序的子序列, 每个子序列的长度为1然后两两归并, 得到n/2个长度为2 或1 的有序子序列; 再两两归并, ... ,如此重复, 直至得到一个长度为n 的有序序列为止.
+
+![](assets/Pasted%20image%2020230307225630.png)
+>2-路归并排序中的核心操作是，将待排序序列中前后相邻的两个有序序列归并为一个有序序列.
+
+**算法8.10 相邻两个有序子序列的归并**
+
+设两个有序表存放在同一数组中相邻的位置上:`[low..mid]`和`R[mid+1..high]`, 每次分别从两个表中取出一个记录进行关键字的比较, 将较小者放入`T[low..high]`中, 重复此过程, 直至其中一个表为空, 最后将另一非空表中余下的部分直接复制到T中.
+
+![](assets/Pasted%20image%2020230307230429.png)
+
+```c
+//将有序表R[low..mid]和R[mid+1..high]归并为有序表T[low..high]
+void Merge(RedType *R, RedType *T, int low, int mid, int high)
+{
+	int i = low, j = mid+1, k =low;
+	while(i<=mid && j<=high) //将R中记录由小到大地并入T中
+	{
+		if(R[i].key <= R[j].key)  T[k++] = R[i++];
+		else T[k++] = R[j++];
+	}
+	while(i<=mid) T[k++] = R[i++]; //将剩余的R[low..mid]复制到T中
+	while(j<=high) T[k++] = R[j++]; //将剩余的R[j.high]复制到T中
+}
+```
+整个归并排序需进行log2 n趟.
+
+2-路归并排序也可以利用划分为子序列的方法递归实现. 首先把整个待排序序列划分为两个长度大致相等的子序列, 对这两个子序列分别递归地进行排序, 然后再把它们归并.
+
+**算法8.11 归井排序**
+
+算法步骤
+2路归并排序将`R[low..high]`中的记录归并排序后放入`T[low..high]`中. 当序列长度等于1时, 递归结束, 否则：
+(1) 将当前序列一分为二, 求出分裂点`mid = (low+high)/2`;
+(2) 对子序列`R[low.. mid]`递归， 进行归并排序仁结果放入`S[low.. mid]`中；
+(3) 对子序列`R[mid + 1..high]`递归， 进行归并排序， 结果放入`S[mid+1..high]`中；
+(4) 调用算法Merge, 将有序的两个子序列`S[low.. mid]`和`S[mid+1..high]`归并为一个有序的序列`T[low.. high]`.
+
+```c
+void MSort(RedType *R,RedType *T,int low,int high)
+{//R[low .. high]归并排序后放人T[low.. high]中
+	RedType *S = malloc((high+1)*sizeof(RedType));
+	if(!S)  return ;
+	
+	if(low == high) T[low] = R[low];
+	else
+	{
+		int mid = (low+high) >> 1; //将当前序列一分为二， 求出分裂点mid
+		//对子序列R[low..mid]递归归并排序,结果放入S[low..mid]
+		MSort(R,S,low,mid); 
+		//对子序列R[mid+1..high]递归归并排序,结果放人S[mid+ 1..high]
+		MSort(R,S,mid+1,high); 
+		//将S[low..mid]和S[mid+1..high]归并到T[low..high]
+		Merge(S,T,low,mid,high);
+	}
+	free(S);
+}
+
+void MergeSort(SqList *L)
+{//对顺序表L 做归并排序
+	MSort(L->r, L->r, 1, L->length);
+}
+```
+归并排序的时间复杂度为O(nlog2 n).
+用顺序表实现归并排序时, 需要和待排序记录个数相等的辅助存储空间S, 所以空间复杂度为O(n).
+
+【算法特点】
+(1)是稳定排序。
+(2)可用于链式结构, 且不需要附加存储空间, 但递归实现时仍需要开辟相应的递归工作栈.
+
+## 8.6 基数排序
+
+前述各类排序方法都是建立在关键字比较的基础上, 而`分配类排序`不需要比较关键字的大小, 它是根据关键字中各位的值, 通过对待排序记录进行若干趟“分配”与“收集”来实现排序的, 是一种借助于多关键字排序的思想对单关键字排序的方法. 基数排序(Radix Sorting)是典型的`分配类排序`.
+
+也叫桶排序或者箱排序: 设置若干个箱子, 将关键字为k的记录放入第k个箱子, 然后在按序号将非空的连接.
+
+基数排序: 数字是有范围的, 均由0到9这十个数字组成, 则只需要设置十个箱子, 相继按个, 十, 百...进行排序. 
+![](assets/Pasted%20image%2020230308055320.png)
+
+![](assets/Pasted%20image%2020230307233933.png)
+这一趟下来, 个位数就有序了.
+![](assets/Pasted%20image%2020230307234046.png)
+![](assets/Pasted%20image%2020230307234143.png)
+
+第三趟完成后, 居然所有的数都有序了..
+时间复杂度`O(k*(n+m))`, k为关键字个数.上图有三个. m为关键字的取值范围个数.上面区范围是10个.
+时间复杂度O(n+m).
+![](assets/Pasted%20image%2020230307234955.png)
+```c
+#define MAXNUM_KEY 8 //关键字项数的最大值
+#define RADIX 10 //关键字基数， 此时是十进制整数的基数
+#define MAX_SPACE 10000
+
+typedef struct
+{
+	KeyType keys[MAXNUM_KEY]; //关键字
+	//InfoType otheritems; //其他数据项
+	int next;
+}SLCell;  //静态链表的结点类型
+
+typedef struct
+｛
+	SLCell r[MAX_SPACE]; //静态链表的可利用空间, r[O]为头结点
+	int keynum;  //记录的当前关键字个数
+	int recnum;  //静态链表的当前长度
+}SLList;  //静态链表类型
+typedef int ArrType[RADIX]; //指针数组类型
+```
+
+## 8.7 各种排序方法比较
+
+![](assets/Pasted%20image%2020230307235101.png)
+
+## 8.8 外部排序
+
+前面讨论的都是内部排序的方法, 即整个排序过程全部是在内存中完成的， 并不涉及数据的内外存交换问题. 但如果待排序的记录数目很大, 无法一次性调入内存, 整个排序过程就必须借用外存分批调入内存才能完成.
+
+- 外村, 内存之间的数据交换
+
+![](assets/Pasted%20image%2020230308060907.png)
+若要修改磁盘中的数据, 必须把磁盘中的块, 读到内存中, 开辟一块内存形成缓冲区. 磁盘以块为单位, 读一块, 改需要改的数据, 再把这一块写回去.
+![](assets/Pasted%20image%2020230308061242.png)
+
+- 外部排序原理
+
+磁盘的容量远大于内存, 所以, 不可能把磁盘上所有数据读到内存, 再排序. 我们需要对存在外部磁盘中的数据进行排序, 这就是外部排序.
+
+基本思想: 使用"归并排序" 的方法, 最少只需要在内存分配3块大小的缓冲区即可对任意一个大文件进行排序.
+![](assets/Pasted%20image%2020230308061822.png)
+在进行归并排序之前, 需要先构建已经有序的序列.
+
+- 构造初始归并段
+
+先读取两块外存的数据到内存中:
+![](assets/Pasted%20image%2020230308062021.png)
+这两个缓冲区的内容, 进行内部归并排序, 然后把输入缓冲区1和2的数据通过输出缓冲区写回到磁盘:
+![](assets/Pasted%20image%2020230308062237.png)
+![](assets/Pasted%20image%2020230308062356.png)
+如此重复操作:
+![](assets/Pasted%20image%2020230308062429.png)
+
+- 第一趟归并
+
+把上面得到的8个有序子序列 两两归并, 先读取各自归并段中较小的:
+![](assets/Pasted%20image%2020230308062712.png)
+对输入缓冲区1和2进行归并排序, 输出缓冲区凑足1KB写回磁盘:
+![](assets/Pasted%20image%2020230308062816.png)
+输入缓冲区1或2一旦有一个空了, 就立刻去磁盘读取对应段1或2的待归并子序列:
+![](assets/Pasted%20image%2020230308062851.png)
+![](assets/Pasted%20image%2020230308062955.png)
+![](assets/Pasted%20image%2020230308063026.png)
+![](assets/Pasted%20image%2020230308063108.png)
+重复上面把剩下的几个归并段 归并. 第一趟归并结束 原来八个段变为四个:
+![](assets/Pasted%20image%2020230308063351.png)
+
+- 第二趟归并
+
+跟之前一样, 先从两个段中小的部分开始: 
+![](assets/Pasted%20image%2020230308063420.png)
+输入缓冲区1(2)空了, 立即从对应归并段1(2)读入较小的数据:
+![](assets/Pasted%20image%2020230308063547.png)
+需要注意: 从输出缓冲区出来写到磁盘的位置, 不是原来从磁盘上读取数据的位置了,  磁盘数据原来的位置归还给操作系统了.  输出缓冲区写到磁盘的位置是新的, 不是同一块空间.
+![](assets/Pasted%20image%2020230308064107.png)
+
+第二趟归并完成, 4个段变2个段:
+![](assets/Pasted%20image%2020230308064359.png)
+
+- 第三趟归并
+
+跟之前一样, 就是操作的数据更长了.
+![](assets/Pasted%20image%2020230308064443.png)
+
+- 总结:
+![](assets/Pasted%20image%2020230308064735.png)
+
+- 优化: 多路归并:
+
+空间来换时间:
+![](assets/Pasted%20image%2020230308064813.png)
+第一趟归并就出现了两个归并段, 再来一次, 就完成了.
+![](assets/Pasted%20image%2020230308064956.png)
+- 开销优化
+![](assets/Pasted%20image%2020230308065309.png)
+![](assets/Pasted%20image%2020230308065433.png)
+多路归并时, 路数变多可以用败者树减少关键字对比次数. 
+可以用置换-选择排序进一步减少初始归并段的数量.
+
+![](assets/Pasted%20image%2020230308065841.png)
+
+### 8.8.1 败者树
+
+- 前面 多路平衡归并的问题
+![](assets/Pasted%20image%2020230308070432.png)
+
+- 败者树的定义
+败者树, 可以视为一颗完全二叉树(根结点上再多一个结点). K个叶子结点分别是当前参加比较的元素, 非叶子结点用来记忆左右子树中的失败者, 而让胜者往上继续进行比较, 一直到根结点.
+
+- 败者树在多路平衡归并中的应用
+![](assets/Pasted%20image%2020230308071355.png)
+![](assets/Pasted%20image%2020230308071111.png)
+最小元素出现了, 来自归并段3, 值为1. 剩下记录的都是失败者来自的段.
+![](assets/Pasted%20image%2020230308071212.png)
+再从归并段3 取下一个元素, 跟之前值为1的比较路径一样.
+![](assets/Pasted%20image%2020230308071911.png)
+![](assets/Pasted%20image%2020230308072156.png)
+
+- 败者树实现思路
+![](assets/Pasted%20image%2020230308072453.png)
+
+### 8.8.2 置换-选择排序
+
+- 之前的构造初始归并段
+![](assets/Pasted%20image%2020230308073010.png)
+
+- 置换-选择排序构造初始归并段:
+![](assets/Pasted%20image%2020230308073443.png)
+![](assets/Pasted%20image%2020230308073512.png)
+![](assets/Pasted%20image%2020230308073527.png)
+![](assets/Pasted%20image%2020230308074027.png)
+![](assets/Pasted%20image%2020230308073624.png)
+![](assets/Pasted%20image%2020230308073653.png)
+![](assets/Pasted%20image%2020230308073715.png)
+![](assets/Pasted%20image%2020230308073820.png)
+![](assets/Pasted%20image%2020230308073938.png)
+- 总结
+![](assets/Pasted%20image%2020230308074049.png)
+
+### 8.8.3 最佳归并树
+
+- 归并数的读写次数
+![](assets/Pasted%20image%2020230308074302.png)
+![](assets/Pasted%20image%2020230308074405.png)
+***`重要结论: 归并过程中的磁盘I/O次数=归并数的WPL * 2`***
+而要让磁盘I/O次数最少, 就是要使归并数WPL最小, 这就是哈夫曼树.
+
+- 构造二路归并的最佳归并树
+构造哈夫曼树: 权值1 2 2 5 6 
+![](assets/Pasted%20image%2020230308074802.png)
+
+- 多路归并的最佳归并树
+![](assets/Pasted%20image%2020230308074914.png)
+![](assets/Pasted%20image%2020230308075018.png)
+
+- 缺段怎么办
+![](assets/Pasted%20image%2020230308075157.png)
+![](assets/Pasted%20image%2020230308075316.png)
+
+- 虚段添加几个
+![](assets/Pasted%20image%2020230308075639.png)
+
